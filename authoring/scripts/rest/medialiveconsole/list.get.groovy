@@ -1,3 +1,7 @@
-// get bean and create lists
+def mediaLiveConsoleServices = applicationContext["mediaLiveConsoleServices"]
+
+def list = mediaLiveConsoleServices.listChannels()
 
 return list
+
+

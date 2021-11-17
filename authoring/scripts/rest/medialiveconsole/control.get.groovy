@@ -1,9 +1,13 @@
+def mediaLiveConsoleServices = applicationContext["mediaLiveConsoleServices"]
+def channelId = params.channelId
+
+// check for channelId, valid action etc
+
 if(params.action=="start") {
-	// get bean and execute start
+	mediaLiveConsoleServices.startChannel(channelId)
 }
 else if(params.action=="stop") {
-	// get bean and execute stop
+	mediaLiveConsoleServices.stopChannel(channelId)
 }
-
 
 return params.action
