@@ -8,8 +8,8 @@ import com.amazonaws.services.medialive.model.StopChannelRequest
 import com.amazonaws.services.medialive.model.StartChannelRequest
 
 String bucket = "motopic";
-def accessKey = "AKIASM5NX5EXWL7NBSHO"
-def secretKey = "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"
+def accessKey = "X"
+def secretKey = "C"
 def region = "us-east-1"
 
 AWSCredentialsProvider credProvider = (AWSCredentialsProvider)(new AWSStaticCredentialsProvider(new BasicAWSCredentials(accessKey, secretKey)))
