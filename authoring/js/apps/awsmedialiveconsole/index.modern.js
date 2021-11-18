@@ -1,5 +1,5 @@
 var { forwardRef, useContext, createContext, createElement, Fragment, useEffect, useState } = craftercms.libs.React;
-var { Switch, Dialog, DialogTitle, TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, FormControlLabel, Button } = craftercms.libs.MaterialUI;
+var { Switch, Dialog, DialogTitle, TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, Button, FormControlLabel } = craftercms.libs.MaterialUI;
 
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation.
@@ -3329,12 +3329,20 @@ var ReactComponent = function (_a) {
     useEffect(function () {
         if (!document.getElementById("se1")) {
             // gross
+            // @ts-ignore
+            var siteId = craftercms.plugins.get("org.rd.plugin.awsmedialiveconsole").source.site;
+            // @ts-ignore
+            var baseAddress = "/studio/1/plugin/file"
+                + "?type=apps"
+                + "&name=awsmedialiveconsole"
+                + "&pluginId=org.rd.plugin.awsmedialiveconsole"
+                + "&siteId=" + siteId;
             var se1 = document.createElement("script");
-            se1.src = "/static-assets/app/videojs/video.js";
+            se1.src = baseAddress + "&filename=video.js";
             se1.id = "se1";
             document.head.appendChild(se1);
             var se2 = document.createElement("script");
-            se2.src = "/static-assets/app/videojs/videojs-dash.js";
+            se2.src = baseAddress + "&filename=videojs-dash.js";
             document.head.appendChild(se2);
         }
         dataLoadChannels();
@@ -3353,7 +3361,7 @@ var ReactComponent = function (_a) {
             + '?siteId=' + siteId;
         // @ts-ignore
         CrafterCMSNext.util.ajax.get(serviceUrl).subscribe(function (response) {
-            setState(__assign(__assign({}, state), { channels: response.response.result.channels }));
+            setState(__assign(__assign({}, state), { channels: response.response.result }));
         });
     };
     var handleToggleOn = function (channelId) {
@@ -3390,12 +3398,13 @@ var ReactComponent = function (_a) {
             handleToggleOff(channelId);
         }
     };
-    var previewDestination = function () {
+    var previewDestination = function (videoSrcUrl) {
         setLightBoxOpen(open);
         window.setTimeout(function () {
             // @ts-ignore
             var player = videojs('example-video');
-            player.src({ src: 'https://547f72e6652371c3.mediapackage.us-east-1.amazonaws.com/out/v1/f3288b3154974ee3988d67acd9b27716/index.mpd', type: 'application/dash+xml' });
+            var videoType = (videoSrcUrl.indexOf("m3u8") != -1) ? 'application/vnd.apple.mpegurl' : 'application/dash+xml';
+            player.src({ src: videoSrcUrl, type: videoType });
             player.play();
         }, 1500);
     };
@@ -3435,6 +3444,10 @@ var ReactComponent = function (_a) {
                         var channelIdx = _a[0];
                         var channel = state.channels[channelIdx];
                         var channelSwitchOn = (channel.state == "STARTING" || channel.state == "RUNNING");
+                        var channelPreviewButton = createElement("span", null, "No Preview Available");
+                        if (channel.previewURL != "") {
+                            channelPreviewButton = createElement(Button, { size: "small", color: "primary", onClick: function () { return previewDestination(channel.previewURL); } }, "Preview");
+                        }
                         // @ts-ignore
                         return (createElement(TableRow, { key: channel.id, sx: { '&:last-child td, &:last-child th': { border: 0 } } },
                             createElement(TableCell, { align: "right" }, channel.name),
@@ -3442,8 +3455,7 @@ var ReactComponent = function (_a) {
                             createElement(TableCell, { align: "right" }, channel.state),
                             createElement(TableCell, { align: "right" },
                                 createElement(FormControlLabel, { checked: channelSwitchOn, onChange: function () { return handleToggleChannel(channelSwitchOn, channel.id); }, control: createElement(IOSSwitch, null), label: "" })),
-                            createElement(TableCell, { align: "right" },
-                                createElement(Button, { size: "small", color: "primary", onClick: function () { return previewDestination(); } }, "Preview"))));
+                            createElement(TableCell, { align: "right" }, channelPreviewButton)));
                     })))))));
 };
 

@@ -64,12 +64,22 @@ const ReactComponent = ({}: ExampleComponentProps) => {
   React.useEffect(() => {
     if(!document.getElementById("se1")) {
       // gross
+      // @ts-ignore
+      let siteId = craftercms.plugins.get("org.rd.plugin.awsmedialiveconsole").source.site
+
+      // @ts-ignore
+      var baseAddress = "/studio/1/plugin/file"
+                      + "?type=apps"
+                      + "&name=awsmedialiveconsole"
+                      + "&pluginId=org.rd.plugin.awsmedialiveconsole"
+                      + "&siteId="+siteId
+      
       var se1 = document.createElement("script")
-          se1.src = "/static-assets/app/videojs/video.js"
+          se1.src = baseAddress+"&filename=video.js"
           se1.id = "se1"
           document.head.appendChild(se1)
       var se2 = document.createElement("script")
-          se2.src = "/static-assets/app/videojs/videojs-dash.js"
+          se2.src = baseAddress+"&filename=videojs-dash.js"
           document.head.appendChild(se2)
     }
 
@@ -94,7 +104,7 @@ const ReactComponent = ({}: ExampleComponentProps) => {
     
     // @ts-ignore
     CrafterCMSNext.util.ajax.get(serviceUrl).subscribe((response) => {
-       setState({...state, channels:response.response.result.channels})
+       setState({...state, channels:response.response.result})
     })
   }
 
@@ -136,13 +146,14 @@ const ReactComponent = ({}: ExampleComponentProps) => {
 
   }
 
-  const previewDestination = () => {
+  const previewDestination = (videoSrcUrl) => {
     setLightBoxOpen(open)
 
     window.setTimeout(function() {
       // @ts-ignore
       var player = videojs('example-video');
-      player.src({ src: 'https://547f72e6652371c3.mediapackage.us-east-1.amazonaws.com/out/v1/f3288b3154974ee3988d67acd9b27716/index.mpd', type: 'application/dash+xml'});
+      var videoType = (videoSrcUrl.indexOf("m3u8")!=-1) ? 'application/vnd.apple.mpegurl' :'application/dash+xml'
+      player.src({ src: videoSrcUrl, type: videoType});
       player.play();
     },1500)
 
@@ -210,7 +221,12 @@ const ReactComponent = ({}: ExampleComponentProps) => {
         { state.channels && Object.entries(state.channels as any).map(([channelIdx]) => {
             let channel = state.channels[channelIdx]
             let channelSwitchOn = (channel.state == "STARTING" || channel.state == "RUNNING")
-            
+            let channelPreviewButton = <span>No Preview Available</span>
+
+            if(channel.previewURL != "") {
+              channelPreviewButton = <Button size="small" color="primary" onClick={() => previewDestination(channel.previewURL)}>Preview</Button>
+            }
+
             // @ts-ignore
             return(
               <TableRow
@@ -226,9 +242,7 @@ const ReactComponent = ({}: ExampleComponentProps) => {
                     control={<IOSSwitch  />}
                     label=""/> 
                 </TableCell>
-                <TableCell align="right">
-                  <Button size="small" color="primary" onClick={() => previewDestination()}>Preview</Button>
-                </TableCell>
+                <TableCell align="right">{channelPreviewButton}</TableCell>
               </TableRow>
             )
           })
