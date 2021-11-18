@@ -1,6 +1,7 @@
 # AWS MediaLive Console Plugin for Crafter CMS
 
-Add a AWS MediaLive management console for live encoding to your project.
+Add a AWS MediaLive management console for live video encoding to your project.
+The console allows content managers to start, stop and preview MediaLive channels from within Crafter Studio.
 
 # Installation
 
