@@ -88,7 +88,7 @@ const ReactComponent = ({}: ExampleComponentProps) => {
   const dataLoadChannels = () => {
     // @ts-ignore
     CrafterCMSNext.util.ajax.get('/studio/api/2/plugin/script/org/rd/plugin/awsmedialiveconsole/medialiveconsole/list.json?siteId=test').subscribe((response) => {
-       setState({...state, channels:response.response.channels})
+       setState({...state, channels:response.response.result.channels})
     })
   }
 
