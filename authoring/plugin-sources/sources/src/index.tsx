@@ -1,7 +1,7 @@
 import ReactComponent from './ReactComponent'
 
 const plugin /*: PluginDescriptor */ = {
-  id: 'org.craftercms.sampleComponentLibraryPlugin',
+  id: 'org.rd.plugin.awsmedialiveconsole',
   name: 'Sample component library',
   description: 'An example plugin of a component library',
   author: 'Russ Danner',
@@ -9,7 +9,7 @@ const plugin /*: PluginDescriptor */ = {
   locales: {},
   apps: [],
   widgets: {
-    'org.craftercms.sampleComponentLibraryPlugin.components.reactComponent': ReactComponent
+    'org.rd.plugin.awsmedialiveconsole.components.reactComponent': ReactComponent
   },
   scripts: [],
   stylesheets: [],

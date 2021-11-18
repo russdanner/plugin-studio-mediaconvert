@@ -87,14 +87,14 @@ const ReactComponent = ({}: ExampleComponentProps) => {
 
   const dataLoadChannels = () => {
     // @ts-ignore
-    CrafterCMSNext.util.ajax.get('/api/list.json').subscribe((response) => {
+    CrafterCMSNext.util.ajax.get('/studio/api/2/plugin/script/org/rd/plugin/awsmedialiveconsole/medialiveconsole/list.json?siteId=test').subscribe((response) => {
        setState({...state, channels:response.response.channels})
     })
   }
 
   const handleToggleOn = () => {
     // @ts-ignore
-    CrafterCMSNext.util.ajax.get('/api/control.json?action=start').subscribe((response) => {
+    CrafterCMSNext.util.ajax.get('/studio/api/2/plugin/script/medialiveconsole/control.json?action=start').subscribe((response) => {
         dataLoadChannels()
     })
   }
@@ -123,7 +123,7 @@ const ReactComponent = ({}: ExampleComponentProps) => {
 
   const handleToggleOff = () => {
     // @ts-ignore
-    CrafterCMSNext.util.ajax.get('/api/control.json?action=stop').subscribe((response) => {
+    CrafterCMSNext.util.ajax.get('/studio/api/2/plugin/script/medialiveconsole/control.json?action=stop').subscribe((response) => {
         dataLoadChannels()
     })
   }

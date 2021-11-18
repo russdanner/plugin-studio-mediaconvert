@@ -1,6 +1,13 @@
-package org.rd.studio.aws.medialive
+package org.rd.plugin.awsmedialiveconsole
 
 @Grab(group='com.amazonaws', module='aws-java-sdk-medialive', version='1.12.99')
+
+import com.amazonaws.auth.*
+import com.amazonaws.auth.AWSCredentialsProvider
+import com.amazonaws.services.medialive.AWSMediaLiveClientBuilder
+import com.amazonaws.services.medialive.model.ListChannelsRequest
+import com.amazonaws.services.medialive.model.StopChannelRequest
+import com.amazonaws.services.medialive.model.StartChannelRequest
 
 /**
  * This class is a service class that maps console functionality to AWS MediaLive services
@@ -14,9 +21,9 @@ public class MediaLiveConsole {
      */
     def createMediaLiveClient() {
         // look these things up
-        def region = ""
-        def accessKey = ""
-        def secretKey = ""
+        def region = "us-east-1"
+        def accessKey = "AKIASM5NX5EXZNYUKRVZ"
+        def secretKey = "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"
 
         if(this.mediaLiveClient == null) {
             AWSCredentialsProvider credProvider = (AWSCredentialsProvider) (new AWSStaticCredentialsProvider(new BasicAWSCredentials(accessKey, secretKey)))

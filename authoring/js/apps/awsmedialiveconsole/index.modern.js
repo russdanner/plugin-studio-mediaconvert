@@ -3347,13 +3347,13 @@ var ReactComponent = function (_a) {
     }, []);
     var dataLoadChannels = function () {
         // @ts-ignore
-        CrafterCMSNext.util.ajax.get('/api/list.json').subscribe(function (response) {
+        CrafterCMSNext.util.ajax.get('/studio/api/2/plugin/script/org/rd/plugin/awsmedialiveconsole/medialiveconsole/list.json?siteId=test').subscribe(function (response) {
             setState(__assign(__assign({}, state), { channels: response.response.channels }));
         });
     };
     var handleToggleOn = function () {
         // @ts-ignore
-        CrafterCMSNext.util.ajax.get('/api/control.json?action=start').subscribe(function (response) {
+        CrafterCMSNext.util.ajax.get('/studio/api/2/plugin/script/medialiveconsole/control.json?action=start').subscribe(function (response) {
             dataLoadChannels();
         });
     };
@@ -3376,7 +3376,7 @@ var ReactComponent = function (_a) {
     };
     var handleToggleOff = function () {
         // @ts-ignore
-        CrafterCMSNext.util.ajax.get('/api/control.json?action=stop').subscribe(function (response) {
+        CrafterCMSNext.util.ajax.get('/studio/api/2/plugin/script/medialiveconsole/control.json?action=stop').subscribe(function (response) {
             dataLoadChannels();
         });
     };
@@ -3429,7 +3429,7 @@ var ReactComponent = function (_a) {
 };
 
 var plugin /*: PluginDescriptor */ = {
-    id: 'org.craftercms.sampleComponentLibraryPlugin',
+    id: 'org.rd.plugin.awsmedialiveconsole',
     name: 'Sample component library',
     description: 'An example plugin of a component library',
     author: 'Russ Danner',
@@ -3437,7 +3437,7 @@ var plugin /*: PluginDescriptor */ = {
     locales: {},
     apps: [],
     widgets: {
-        'org.craftercms.sampleComponentLibraryPlugin.components.reactComponent': ReactComponent
+        'org.rd.plugin.awsmedialiveconsole.components.reactComponent': ReactComponent
     },
     scripts: [],
     stylesheets: [],
