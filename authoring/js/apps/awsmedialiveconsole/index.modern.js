@@ -3347,22 +3347,36 @@ var ReactComponent = function (_a) {
     }, []);
     var dataLoadChannels = function () {
         // @ts-ignore
-        CrafterCMSNext.util.ajax.get('/studio/api/2/plugin/script/org/rd/plugin/awsmedialiveconsole/medialiveconsole/list.json?siteId=test').subscribe(function (response) {
+        var serviceUrl = '/studio/api/2/plugin/script/org/rd/plugin/awsmedialiveconsole/medialiveconsole/list.json?siteId=test';
+        // @ts-ignore
+        CrafterCMSNext.util.ajax.get(serviceUrl).subscribe(function (response) {
             setState(__assign(__assign({}, state), { channels: response.response.result.channels }));
         });
     };
-    var handleToggleOn = function () {
+    var handleToggleOn = function (channelId) {
         // @ts-ignore
-        CrafterCMSNext.util.ajax.get('/studio/api/2/plugin/script/medialiveconsole/control.json?action=start').subscribe(function (response) {
+        var serviceUrl = '/studio/api/2/plugin/script/org/rd/plugin/awsmedialiveconsole/medialiveconsole/control.json?siteId=test&action=start'
+            + '&channelId=' + channelId;
+        // @ts-ignore
+        CrafterCMSNext.util.ajax.get(serviceUrl).subscribe(function (response) {
             dataLoadChannels();
         });
     };
-    var handleToggleChannel = function (currentState) {
+    var handleToggleOff = function (channelId) {
+        // @ts-ignore
+        var serviceUrl = '/studio/api/2/plugin/script/org/rd/plugin/awsmedialiveconsole/medialiveconsole/control.json?siteId=test&action=stop'
+            + '&channelId=' + channelId;
+        // @ts-ignore
+        CrafterCMSNext.util.ajax.get(serviceUrl).subscribe(function (response) {
+            dataLoadChannels();
+        });
+    };
+    var handleToggleChannel = function (currentState, channelId) {
         if (!currentState || currentState == false) {
-            handleToggleOn();
+            handleToggleOn(channelId);
         }
         else {
-            handleToggleOff();
+            handleToggleOff(channelId);
         }
     };
     var previewDestination = function () {
@@ -3373,12 +3387,6 @@ var ReactComponent = function (_a) {
             player.src({ src: 'https://547f72e6652371c3.mediapackage.us-east-1.amazonaws.com/out/v1/f3288b3154974ee3988d67acd9b27716/index.mpd', type: 'application/dash+xml' });
             player.play();
         }, 1500);
-    };
-    var handleToggleOff = function () {
-        // @ts-ignore
-        CrafterCMSNext.util.ajax.get('/studio/api/2/plugin/script/medialiveconsole/control.json?action=stop').subscribe(function (response) {
-            dataLoadChannels();
-        });
     };
     var _b = useState(false), open = _b[0], setOpen = _b[1];
     var _c = useState(false), lightBoxOpen = _c[0], setLightBoxOpen = _c[1];
@@ -3422,7 +3430,7 @@ var ReactComponent = function (_a) {
                             createElement(TableCell, { align: "right" }, channel.id),
                             createElement(TableCell, { align: "right" }, channel.state),
                             createElement(TableCell, { align: "right" },
-                                createElement(FormControlLabel, { checked: channelSwitchOn, onChange: function () { return handleToggleChannel(channelSwitchOn); }, control: createElement(IOSSwitch, null), label: "" })),
+                                createElement(FormControlLabel, { checked: channelSwitchOn, onChange: function () { return handleToggleChannel(channelSwitchOn, channel.id); }, control: createElement(IOSSwitch, null), label: "" })),
                             createElement(TableCell, { align: "right" },
                                 createElement(Button, { size: "small", color: "primary", onClick: function () { return previewDestination(); } }, "Preview"))));
                     })))))));

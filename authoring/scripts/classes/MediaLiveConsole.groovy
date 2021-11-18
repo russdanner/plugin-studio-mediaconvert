@@ -64,7 +64,7 @@ public class MediaLiveConsole {
      */
     def startChannel(channelId, siteId) {
         def mlClient = this.createMediaLiveClient(siteId)
-        mlClient.stopChannel(new StopChannelRequest().withChannelId(channelId))
+        mlClient.startChannel(new StartChannelRequest().withChannelId(channelId))
 
         return true
     }
@@ -74,7 +74,7 @@ public class MediaLiveConsole {
      * @param channelId channel to stop
      * @param siteId Id of the site
      */
-    def stoptChannel(channelId, siteId) {
+    def stopChannel(channelId, siteId) {
         def mlClient = this.createMediaLiveClient(siteId)
         mlClient.stopChannel(new StopChannelRequest().withChannelId(channelId))
 

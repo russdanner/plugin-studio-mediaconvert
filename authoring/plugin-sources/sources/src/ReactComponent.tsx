@@ -87,24 +87,44 @@ const ReactComponent = ({}: ExampleComponentProps) => {
 
   const dataLoadChannels = () => {
     // @ts-ignore
-    CrafterCMSNext.util.ajax.get('/studio/api/2/plugin/script/org/rd/plugin/awsmedialiveconsole/medialiveconsole/list.json?siteId=test').subscribe((response) => {
+    let serviceUrl = '/studio/api/2/plugin/script/org/rd/plugin/awsmedialiveconsole/medialiveconsole/list.json?siteId=test'
+    
+    // @ts-ignore
+    CrafterCMSNext.util.ajax.get(serviceUrl).subscribe((response) => {
        setState({...state, channels:response.response.result.channels})
     })
   }
 
-  const handleToggleOn = () => {
+  const handleToggleOn = (channelId) => {
     // @ts-ignore
-    CrafterCMSNext.util.ajax.get('/studio/api/2/plugin/script/medialiveconsole/control.json?action=start').subscribe((response) => {
+    let serviceUrl = '/studio/api/2/plugin/script/org/rd/plugin/awsmedialiveconsole/medialiveconsole/control.json'
+                   + '?siteId=test'
+                   + '&action=start'
+                   + '&channelId='+channelId
+    // @ts-ignore
+    CrafterCMSNext.util.ajax.get(serviceUrl).subscribe((response) => {
         dataLoadChannels()
     })
   }
 
-  const handleToggleChannel = (currentState ) => {
+  const handleToggleOff = (channelId) => {
+    // @ts-ignore
+    let serviceUrl = '/studio/api/2/plugin/script/org/rd/plugin/awsmedialiveconsole/medialiveconsole/control.json'
+                   + '?siteId=test'
+                   + '&action=stop'
+                   + '&channelId='+channelId
+    // @ts-ignore
+    CrafterCMSNext.util.ajax.get(serviceUrl).subscribe((response) => {
+        dataLoadChannels()
+    })
+  }
+
+  const handleToggleChannel = (currentState, channelId) => {
     if(!currentState || currentState == false) {
-      handleToggleOn()
+      handleToggleOn(channelId)
     }
     else {
-      handleToggleOff()
+      handleToggleOff(channelId)
     }
 
   }
@@ -121,12 +141,6 @@ const ReactComponent = ({}: ExampleComponentProps) => {
 
   }
 
-  const handleToggleOff = () => {
-    // @ts-ignore
-    CrafterCMSNext.util.ajax.get('/studio/api/2/plugin/script/medialiveconsole/control.json?action=stop').subscribe((response) => {
-        dataLoadChannels()
-    })
-  }
 
 
 
@@ -201,7 +215,7 @@ const ReactComponent = ({}: ExampleComponentProps) => {
                 <TableCell align="right">
                   <FormControlLabel
                     checked={channelSwitchOn}
-                    onChange={() => handleToggleChannel(channelSwitchOn)}
+                    onChange={() => handleToggleChannel(channelSwitchOn, channel.id)}
                     control={<IOSSwitch  />}
                     label=""/> 
                 </TableCell>
