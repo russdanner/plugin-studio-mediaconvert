@@ -3348,7 +3348,7 @@ var ReactComponent = function (_a) {
     var dataLoadChannels = function () {
         // @ts-ignore
         CrafterCMSNext.util.ajax.get('/studio/api/2/plugin/script/org/rd/plugin/awsmedialiveconsole/medialiveconsole/list.json?siteId=test').subscribe(function (response) {
-            setState(__assign(__assign({}, state), { channels: response.response.channels }));
+            setState(__assign(__assign({}, state), { channels: response.response.result.channels }));
         });
     };
     var handleToggleOn = function () {

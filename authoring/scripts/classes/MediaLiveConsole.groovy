@@ -26,12 +26,13 @@ public class MediaLiveConsole {
 
     /**
      * return the media live client. If one does not exist for the instance, create it.
+     * @param siteId Id of the site
      */
-    def createMediaLiveClient() {
+    def createMediaLiveClient(siteId) {
         // look these things up
 
         if(this.mediaLiveClient == null) {
-            def siteConfiguration = this.siteService.getConfigurationAsDocument("test", "studio", "/site-config.xml", "")
+            def siteConfiguration = this.siteService.getConfigurationAsDocument(siteId, "studio", "/site-config.xml", "")
 
             def region = siteConfiguration.selectSingleNode("//awsmedialiveplugin/region").getText()
             def accessKey = siteConfiguration.selectSingleNode("//awsmedialiveplugin/apikey").getText()
@@ -47,9 +48,10 @@ public class MediaLiveConsole {
 
     /**
      * list the available AWS MediaLive channels
+     * @param siteId Id of the site
      */
-    def listChannels() {
-        def mlClient = this.createMediaLiveClient()
+    def listChannels(siteId) {
+        def mlClient = this.createMediaLiveClient(siteId)
         def channels = mlClient.listChannels(new ListChannelsRequest())
 
         return channels
@@ -58,9 +60,10 @@ public class MediaLiveConsole {
     /**
      * Start a given channel
      * @param channelId channel to start
+     * @param siteId Id of the site
      */
-    def startChannel(channelId) {
-        def mlClient = this.createMediaLiveClient()
+    def startChannel(channelId, siteId) {
+        def mlClient = this.createMediaLiveClient(siteId)
         mlClient.stopChannel(new StopChannelRequest().withChannelId(channelId))
 
         return true
@@ -69,9 +72,10 @@ public class MediaLiveConsole {
     /**
      * Stop a given channel
      * @param channelId channel to stop
+     * @param siteId Id of the site
      */
-    def stoptChannel(channelId) {
-        def mlClient = this.createMediaLiveClient()
+    def stoptChannel(channelId, siteId) {
+        def mlClient = this.createMediaLiveClient(siteId)
         mlClient.stopChannel(new StopChannelRequest().withChannelId(channelId))
 
         return true
