@@ -3450,7 +3450,8 @@ var ReactComponent = function (_a) {
                         }
                         // @ts-ignore
                         return (createElement(TableRow, { key: channel.id, sx: { '&:last-child td, &:last-child th': { border: 0 } } },
-                            createElement(TableCell, { align: "right" }, channel.name),
+                            createElement(TableCell, { align: "left" },
+                                createElement("b", null, channel.name)),
                             createElement(TableCell, { align: "right" }, channel.id),
                             createElement(TableCell, { align: "right" }, channel.state),
                             createElement(TableCell, { align: "right" },

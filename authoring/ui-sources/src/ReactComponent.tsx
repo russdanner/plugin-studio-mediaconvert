@@ -232,7 +232,7 @@ const ReactComponent = ({}: ExampleComponentProps) => {
               <TableRow
                 key={channel.id}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                <TableCell align="right">{channel.name}</TableCell>
+                <TableCell align="left"><b>{channel.name}</b></TableCell>
                 <TableCell align="right">{channel.id}</TableCell>
                 <TableCell align="right">{channel.state}</TableCell>
                 <TableCell align="right">
