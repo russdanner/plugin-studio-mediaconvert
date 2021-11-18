@@ -3347,7 +3347,10 @@ var ReactComponent = function (_a) {
     }, []);
     var dataLoadChannels = function () {
         // @ts-ignore
-        var serviceUrl = '/studio/api/2/plugin/script/org/rd/plugin/awsmedialiveconsole/medialiveconsole/list.json?siteId=test';
+        var siteId = craftercms.plugins.get("org.rd.plugin.awsmedialiveconsole").source.site;
+        // @ts-ignore
+        var serviceUrl = '/studio/api/2/plugin/script/org/rd/plugin/awsmedialiveconsole/medialiveconsole/list.json'
+            + '?siteId=' + siteId;
         // @ts-ignore
         CrafterCMSNext.util.ajax.get(serviceUrl).subscribe(function (response) {
             setState(__assign(__assign({}, state), { channels: response.response.result.channels }));
@@ -3355,7 +3358,11 @@ var ReactComponent = function (_a) {
     };
     var handleToggleOn = function (channelId) {
         // @ts-ignore
-        var serviceUrl = '/studio/api/2/plugin/script/org/rd/plugin/awsmedialiveconsole/medialiveconsole/control.json?siteId=test&action=start'
+        var siteId = craftercms.plugins.get("org.rd.plugin.awsmedialiveconsole").source.site;
+        // @ts-ignore
+        var serviceUrl = '/studio/api/2/plugin/script/org/rd/plugin/awsmedialiveconsole/medialiveconsole/control.json'
+            + '?siteId=' + siteId
+            + '&action=start'
             + '&channelId=' + channelId;
         // @ts-ignore
         CrafterCMSNext.util.ajax.get(serviceUrl).subscribe(function (response) {
@@ -3364,7 +3371,11 @@ var ReactComponent = function (_a) {
     };
     var handleToggleOff = function (channelId) {
         // @ts-ignore
-        var serviceUrl = '/studio/api/2/plugin/script/org/rd/plugin/awsmedialiveconsole/medialiveconsole/control.json?siteId=test&action=stop'
+        var siteId = craftercms.plugins.get("org.rd.plugin.awsmedialiveconsole").source.site;
+        // @ts-ignore
+        var serviceUrl = '/studio/api/2/plugin/script/org/rd/plugin/awsmedialiveconsole/medialiveconsole/control.json'
+            + '?siteId=' + siteId
+            + '&action=stop'
             + '&channelId=' + channelId;
         // @ts-ignore
         CrafterCMSNext.util.ajax.get(serviceUrl).subscribe(function (response) {

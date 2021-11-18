@@ -87,7 +87,10 @@ const ReactComponent = ({}: ExampleComponentProps) => {
 
   const dataLoadChannels = () => {
     // @ts-ignore
-    let serviceUrl = '/studio/api/2/plugin/script/org/rd/plugin/awsmedialiveconsole/medialiveconsole/list.json?siteId=test'
+    let siteId = craftercms.plugins.get("org.rd.plugin.awsmedialiveconsole").source.site
+    // @ts-ignore
+    let serviceUrl = '/studio/api/2/plugin/script/org/rd/plugin/awsmedialiveconsole/medialiveconsole/list.json'
+                   + '?siteId='+siteId
     
     // @ts-ignore
     CrafterCMSNext.util.ajax.get(serviceUrl).subscribe((response) => {
@@ -97,8 +100,10 @@ const ReactComponent = ({}: ExampleComponentProps) => {
 
   const handleToggleOn = (channelId) => {
     // @ts-ignore
+    let siteId = craftercms.plugins.get("org.rd.plugin.awsmedialiveconsole").source.site
+    // @ts-ignore
     let serviceUrl = '/studio/api/2/plugin/script/org/rd/plugin/awsmedialiveconsole/medialiveconsole/control.json'
-                   + '?siteId=test'
+                   + '?siteId='+siteId
                    + '&action=start'
                    + '&channelId='+channelId
     // @ts-ignore
@@ -109,8 +114,10 @@ const ReactComponent = ({}: ExampleComponentProps) => {
 
   const handleToggleOff = (channelId) => {
     // @ts-ignore
+    let siteId = craftercms.plugins.get("org.rd.plugin.awsmedialiveconsole").source.site
+    // @ts-ignore
     let serviceUrl = '/studio/api/2/plugin/script/org/rd/plugin/awsmedialiveconsole/medialiveconsole/control.json'
-                   + '?siteId=test'
+                   + '?siteId='+siteId
                    + '&action=stop'
                    + '&channelId='+channelId
     // @ts-ignore
