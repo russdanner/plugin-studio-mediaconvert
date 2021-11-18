@@ -3446,7 +3446,12 @@ var ReactComponent = function (_a) {
                         var channelSwitchOn = (channel.state == "STARTING" || channel.state == "RUNNING");
                         var channelPreviewButton = createElement("span", null, "No Preview Available");
                         if (channel.previewURL != "") {
-                            channelPreviewButton = createElement(Button, { size: "small", color: "primary", onClick: function () { return previewDestination(channel.previewURL); } }, "Preview");
+                            if (channel.state == "RUNNING") {
+                                channelPreviewButton = createElement(Button, { size: "small", color: "primary", onClick: function () { return previewDestination(channel.previewURL); } }, "Preview");
+                            }
+                            else {
+                                channelPreviewButton = createElement("span", null, "Preview Available When Running");
+                            }
                         }
                         // @ts-ignore
                         return (createElement(TableRow, { key: channel.id, sx: { '&:last-child td, &:last-child th': { border: 0 } } },

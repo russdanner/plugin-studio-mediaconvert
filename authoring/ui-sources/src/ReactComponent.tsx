@@ -224,7 +224,12 @@ const ReactComponent = ({}: ExampleComponentProps) => {
             let channelPreviewButton = <span>No Preview Available</span>
 
             if(channel.previewURL != "") {
-              channelPreviewButton = <Button size="small" color="primary" onClick={() => previewDestination(channel.previewURL)}>Preview</Button>
+              if(channel.state == "RUNNING") {
+                channelPreviewButton = <Button size="small" color="primary" onClick={() => previewDestination(channel.previewURL)}>Preview</Button>
+              }
+              else {
+                channelPreviewButton = <span>Preview Available When Running</span>    
+              }
             }
 
             // @ts-ignore
