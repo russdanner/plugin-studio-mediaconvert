@@ -93,25 +93,30 @@ public class MediaLiveConsole {
             channelResult.id = mlChannel.id
             channelResult.name = mlChannel.name
             channelResult.state = mlChannel.state
-            channelResult.destinations = mlChannel.destinations
+            channelResult.destinations = []
+            channelResult.mlDestinations = mlChannel.destinations
             channelResult.previewURL = ""
 
-            def firstDestination = mlChannel.destinations[0]
+            mlChannel.destinations.each { mlDestination ->
+                def destinationResult = [:]
+                if(mlDestination.mediaPackageSettings) {
+                    def destId = mlDestination.mediaPackageSettings[0].channelId
+                    destinationResult.mediaPackageChannelId = destId
+                    def channelEndpoints = mpClient.listOriginEndpoints(new ListOriginEndpointsRequest().withChannelId(destId)).originEndpoints
 
-            if(firstDestination && firstDestination.mediaPackageSettings) {
-                def mediaPackageDestinationId = firstDestination.mediaPackageSettings[0].channelId
-                def channelEndpoint = mpClient.listOriginEndpoints(new ListOriginEndpointsRequest().withChannelId(mediaPackageDestinationId)).originEndpoints[0]
+                    destinationResult.endpoints = []
+                    channelEndpoints.each { mpEndpoint ->
+                        def endpoint = [:]
+                        endpoint.id = mpEndpoint.id
+                        endpoint.description = mpEndpoint.description
+                        endpoint.url = mpEndpoint.url
 
-                if(channelEndpoint) {
-                    channelResult.previewURL = channelEndpoint.url
-                    channelResult.previewEndpoint = channelEndpoint
+                        destinationResult.endpoints.add(endpoint)
+                    }
+
+                    channelResult.destinations.add(destinationResult)
                 }
-
             }
-
-//def list = mpClient.describeChannel(new DescribeChannelRequest().withId("Live"))
-//def list = mpClient.listOriginEndpoints(new ListOriginEndpointsRequest().withChannelId("Live")).originEndpoints[0].url
-//def list = mpClient.listChannels(new ListChannelsRequest())
 
             channelResults.add(channelResult)
         }

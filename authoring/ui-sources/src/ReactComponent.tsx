@@ -151,16 +151,23 @@ const ReactComponent = ({}: ExampleComponentProps) => {
 
     window.setTimeout(function() {
       // @ts-ignore
-      var player = videojs('example-video');
+      if(!window.awsMPVideoPlayer) {
+        // @ts-ignore
+        var player = videojs('example-video')
+        // @ts-ignore
+        window.awsMPVideoPlayer = player
+      }
+
+      // @ts-ignore
       var videoType = (videoSrcUrl.indexOf("m3u8")!=-1) ? 'application/vnd.apple.mpegurl' :'application/dash+xml'
-      player.src({ src: videoSrcUrl, type: videoType});
-      player.play();
-    },1500)
+      // @ts-ignore
+      window.awsMPVideoPlayer.src({ src: videoSrcUrl, type: videoType})
+      // @ts-ignore
+      window.awsMPVideoPlayer.play()        
+   
+    }, 1500)
 
   }
-
-
-
 
   const [open, setOpen] = React.useState(false)
   const [lightBoxOpen, setLightBoxOpen] = React.useState(false)
@@ -199,8 +206,8 @@ const ReactComponent = ({}: ExampleComponentProps) => {
         maxWidth={'xl'}
         onClose={() => setOpen(false)}
         aria-labelledby="simple-dialog-title"
-        open={open}
-      >
+        open={open}>
+
         <DialogTitle id="max-width-dialog-title">
           AWS MediaLive Console
         </DialogTitle>
@@ -220,16 +227,26 @@ const ReactComponent = ({}: ExampleComponentProps) => {
         { state.channels && Object.entries(state.channels as any).map(([channelIdx]) => {
             let channel = state.channels[channelIdx]
             let channelSwitchOn = (channel.state == "STARTING" || channel.state == "RUNNING")
-            let channelPreviewButton = <span>No Preview Available</span>
 
-            if(channel.previewURL != "") {
-              if(channel.state == "RUNNING") {
-                channelPreviewButton = <Button size="small" color="primary" onClick={() => previewDestination(channel.previewURL)}>Preview</Button>
-              }
-              else {
-                channelPreviewButton = <span>Preview Available When Running</span>    
-              }
-            }
+            let d = Object.entries(channel.destinations as any).map(([destIdx]) => {
+              let dest = channel.destinations[destIdx]
+
+              let epb = Object.entries(dest.endpoints as any).map(([endpointsIdx]) => {
+                let endpoint = dest.endpoints[endpointsIdx]
+                let button = (<div style={{ display: 'block' }}><Button size="small" color="primary" onClick={() => previewDestination(endpoint.url)}>{endpoint.description}</Button></div>)
+                return button
+              })
+            
+              return (<tr>
+                       <td><b>{dest.mediaPackageChannelId}</b></td>
+                       <td>&nbsp;</td>
+                       <td>&nbsp;</td>
+                       <td>&nbsp;</td>
+                       <td>{epb}</td>
+                     </tr>)
+            })
+            
+            let channelPreviewButton = <table>{d}</table>
 
             // @ts-ignore
             return(
@@ -255,9 +272,6 @@ const ReactComponent = ({}: ExampleComponentProps) => {
         </Table>
       </TableContainer>
     </Dialog>
-
-
-
     </React.Fragment>
   )
 }

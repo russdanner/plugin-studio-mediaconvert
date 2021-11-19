@@ -3402,10 +3402,18 @@ var ReactComponent = function (_a) {
         setLightBoxOpen(open);
         window.setTimeout(function () {
             // @ts-ignore
-            var player = videojs('example-video');
+            if (!window.awsMPVideoPlayer) {
+                // @ts-ignore
+                var player = videojs('example-video');
+                // @ts-ignore
+                window.awsMPVideoPlayer = player;
+            }
+            // @ts-ignore
             var videoType = (videoSrcUrl.indexOf("m3u8") != -1) ? 'application/vnd.apple.mpegurl' : 'application/dash+xml';
-            player.src({ src: videoSrcUrl, type: videoType });
-            player.play();
+            // @ts-ignore
+            window.awsMPVideoPlayer.src({ src: videoSrcUrl, type: videoType });
+            // @ts-ignore
+            window.awsMPVideoPlayer.play();
         }, 1500);
     };
     var _b = useState(false), open = _b[0], setOpen = _b[1];
@@ -3444,15 +3452,25 @@ var ReactComponent = function (_a) {
                         var channelIdx = _a[0];
                         var channel = state.channels[channelIdx];
                         var channelSwitchOn = (channel.state == "STARTING" || channel.state == "RUNNING");
-                        var channelPreviewButton = createElement("span", null, "No Preview Available");
-                        if (channel.previewURL != "") {
-                            if (channel.state == "RUNNING") {
-                                channelPreviewButton = createElement(Button, { size: "small", color: "primary", onClick: function () { return previewDestination(channel.previewURL); } }, "Preview");
-                            }
-                            else {
-                                channelPreviewButton = createElement("span", null, "Preview Available When Running");
-                            }
-                        }
+                        var d = Object.entries(channel.destinations).map(function (_a) {
+                            var destIdx = _a[0];
+                            var dest = channel.destinations[destIdx];
+                            var epb = Object.entries(dest.endpoints).map(function (_a) {
+                                var endpointsIdx = _a[0];
+                                var endpoint = dest.endpoints[endpointsIdx];
+                                var button = (createElement("div", { style: { display: 'block' } },
+                                    createElement(Button, { size: "small", color: "primary", onClick: function () { return previewDestination(endpoint.url); } }, endpoint.description)));
+                                return button;
+                            });
+                            return (createElement("tr", null,
+                                createElement("td", null,
+                                    createElement("b", null, dest.mediaPackageChannelId)),
+                                createElement("td", null, "\u00A0"),
+                                createElement("td", null, "\u00A0"),
+                                createElement("td", null, "\u00A0"),
+                                createElement("td", null, epb)));
+                        });
+                        var channelPreviewButton = createElement("table", null, d);
                         // @ts-ignore
                         return (createElement(TableRow, { key: channel.id, sx: { '&:last-child td, &:last-child th': { border: 0 } } },
                             createElement(TableCell, { align: "left" },
