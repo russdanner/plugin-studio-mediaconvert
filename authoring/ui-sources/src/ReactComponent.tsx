@@ -175,15 +175,14 @@ const ReactComponent = ({}: ExampleComponentProps) => {
 
   return (
     <React.Fragment>
-      <div className="MuiButtonBase-root MuiListItem-root MuiListItem-gutters MuiListItem-padding MuiListItem-button css-qctd7"  >
+      <div onClick={() => setOpen(true)} className="MuiButtonBase-root MuiListItem-root MuiListItem-gutters MuiListItem-padding MuiListItem-button css-qctd7"  >
         <div className="MuiListItemIcon-root css-k9sfc6">
-          <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-vubbuv" focusable="false" viewBox="0 0 24 24" aria-hidden="true" data-testid="DashboardRoundedIcon">
-            <path d="M4 13h6c.55 0 1-.45 1-1V4c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v8c0 .55.45 1 1 1zm0 8h6c.55 0 1-.45 1-1v-4c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v4c0 .55.45 1 1 1zm10 0h6c.55 0 1-.45 1-1v-8c0-.55-.45-1-1-1h-6c-.55 0-1 .45-1 1v8c0 .55.45 1 1 1zM13 4v4c0 .55.45 1 1 1h6c.55 0 1-.45 1-1V4c0-.55-.45-1-1-1h-6c-.55 0-1 .45-1 1z"></path>
+          <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-vubbuv" focusable="false" viewBox="0 0 29 29" aria-hidden="true" data-testid="DashboardRoundedIcon">
+            <path d="M17 21.5H4a2 2 0 01-2-2v-10a2 2 0 012-2h13a2 2 0 012 2v10a2 2 0 01-2 2zM21 11.5v6l4.445 2.964A1 1 0 0027 19.631V9.369a1 1 0 00-1.555-.832L21 11.5z"></path>
           </svg>
         </div>
         <div className="MuiListItemText-root css-1tsvksn">
-          <span className="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap MuiListItemText-primary css-typdpm"
-                onClick={() => setOpen(true)} >
+          <span className="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap MuiListItemText-primary css-typdpm" >
             AWS MediaLive Console
           </span>
         </div>
