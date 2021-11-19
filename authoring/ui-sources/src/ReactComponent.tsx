@@ -146,24 +146,38 @@ const ReactComponent = ({}: ExampleComponentProps) => {
 
   }
 
+  const closePreview = () => {
+    // @ts-ignore
+    var playerEl = document.getElementById('example-video')
+    // @ts-ignore
+    videojs(playerEl).dispose()
+    // @ts-ignore
+    window.awsMPVideoPlayer = null
+       
+    setLightBoxOpen(false)
+  }
+
   const previewDestination = (videoSrcUrl) => {
+
     setLightBoxOpen(open)
 
     window.setTimeout(function() {
       // @ts-ignore
-      if(!window.awsMPVideoPlayer) {
+      var player = window.awsMPVideoPlayer  
+      
+      if(!player) {
         // @ts-ignore
-        var player = videojs('example-video')
+        var playerEl = document.getElementById('example-video')
+        // @ts-ignore
+        var player = videojs(playerEl)
         // @ts-ignore
         window.awsMPVideoPlayer = player
       }
-
+      
       // @ts-ignore
       var videoType = (videoSrcUrl.indexOf("m3u8")!=-1) ? 'application/vnd.apple.mpegurl' :'application/dash+xml'
-      // @ts-ignore
-      window.awsMPVideoPlayer.src({ src: videoSrcUrl, type: videoType})
-      // @ts-ignore
-      window.awsMPVideoPlayer.play()        
+      player.src({ src: videoSrcUrl, type: videoType})
+      player.play()        
    
     }, 1500)
 
@@ -197,7 +211,7 @@ const ReactComponent = ({}: ExampleComponentProps) => {
         <span className="MuiTouchRipple-root css-w0pj6f"></span>
       </div>
 
-      <Dialog fullWidth={false} maxWidth={'lg'} onClose={() => setLightBoxOpen(false)} open={lightBoxOpen}>
+      <Dialog fullWidth={false} maxWidth={'lg'} onClose={() => closePreview()} open={lightBoxOpen}>
         <video id="example-video" style={{width:600, height:300}} className="video-js vjs-default-skin" controls> </video>
       </Dialog>
 
@@ -233,7 +247,8 @@ const ReactComponent = ({}: ExampleComponentProps) => {
 
               let epb = Object.entries(dest.endpoints as any).map(([endpointsIdx]) => {
                 let endpoint = dest.endpoints[endpointsIdx]
-                let button = (<div style={{ display: 'block' }}><Button size="small" color="primary" onClick={() => previewDestination(endpoint.url)}>{endpoint.description}</Button></div>)
+                let buttonLabel = (endpoint.description) ? endpoint.description : endpoint.id
+                let button = (<div style={{ display: 'block' }}><Button size="small" color="primary" onClick={() => previewDestination(endpoint.url)}>{buttonLabel}</Button></div>)
                 return button
               })
             

@@ -3398,22 +3398,32 @@ var ReactComponent = function (_a) {
             handleToggleOff(channelId);
         }
     };
+    var closePreview = function () {
+        // @ts-ignore
+        var playerEl = document.getElementById('example-video');
+        // @ts-ignore
+        videojs(playerEl).dispose();
+        // @ts-ignore
+        window.awsMPVideoPlayer = null;
+        setLightBoxOpen(false);
+    };
     var previewDestination = function (videoSrcUrl) {
         setLightBoxOpen(open);
         window.setTimeout(function () {
             // @ts-ignore
-            if (!window.awsMPVideoPlayer) {
+            var player = window.awsMPVideoPlayer;
+            if (!player) {
                 // @ts-ignore
-                var player = videojs('example-video');
+                var playerEl = document.getElementById('example-video');
+                // @ts-ignore
+                var player = videojs(playerEl);
                 // @ts-ignore
                 window.awsMPVideoPlayer = player;
             }
             // @ts-ignore
             var videoType = (videoSrcUrl.indexOf("m3u8") != -1) ? 'application/vnd.apple.mpegurl' : 'application/dash+xml';
-            // @ts-ignore
-            window.awsMPVideoPlayer.src({ src: videoSrcUrl, type: videoType });
-            // @ts-ignore
-            window.awsMPVideoPlayer.play();
+            player.src({ src: videoSrcUrl, type: videoType });
+            player.play();
         }, 1500);
     };
     var _b = useState(false), open = _b[0], setOpen = _b[1];
@@ -3435,7 +3445,7 @@ var ReactComponent = function (_a) {
             createElement("svg", { className: "MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-vubbuv", focusable: "false", viewBox: "0 0 24 24", "aria-hidden": "true", "data-testid": "ChevronRightRoundedIcon" },
                 createElement("path", { d: "M9.29 6.71c-.39.39-.39 1.02 0 1.41L13.17 12l-3.88 3.88c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0l4.59-4.59c.39-.39.39-1.02 0-1.41L10.7 6.7c-.38-.38-1.02-.38-1.41.01z" })),
             createElement("span", { className: "MuiTouchRipple-root css-w0pj6f" })),
-        createElement(Dialog, { fullWidth: false, maxWidth: 'lg', onClose: function () { return setLightBoxOpen(false); }, open: lightBoxOpen },
+        createElement(Dialog, { fullWidth: false, maxWidth: 'lg', onClose: function () { return closePreview(); }, open: lightBoxOpen },
             createElement("video", { id: "example-video", style: { width: 600, height: 300 }, className: "video-js vjs-default-skin", controls: true }, " ")),
         createElement(Dialog, { fullWidth: true, maxWidth: 'xl', onClose: function () { return setOpen(false); }, "aria-labelledby": "simple-dialog-title", open: open },
             createElement(DialogTitle, { id: "max-width-dialog-title" }, "AWS MediaLive Console"),
@@ -3458,8 +3468,9 @@ var ReactComponent = function (_a) {
                             var epb = Object.entries(dest.endpoints).map(function (_a) {
                                 var endpointsIdx = _a[0];
                                 var endpoint = dest.endpoints[endpointsIdx];
+                                var buttonLabel = (endpoint.description) ? endpoint.description : endpoint.id;
                                 var button = (createElement("div", { style: { display: 'block' } },
-                                    createElement(Button, { size: "small", color: "primary", onClick: function () { return previewDestination(endpoint.url); } }, endpoint.description)));
+                                    createElement(Button, { size: "small", color: "primary", onClick: function () { return previewDestination(endpoint.url); } }, buttonLabel)));
                                 return button;
                             });
                             return (createElement("tr", null,
