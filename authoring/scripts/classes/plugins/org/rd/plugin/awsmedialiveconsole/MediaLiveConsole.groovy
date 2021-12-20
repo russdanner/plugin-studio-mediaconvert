@@ -1,4 +1,4 @@
-package org.rd.plugin.awsmedialiveconsole
+package plugins.org.rd.plugin.awsmedialiveconsole
 
 @Grab(group='com.amazonaws', module='aws-java-sdk-medialive', version='1.12.99')
 @Grab(group='com.amazonaws', module='aws-java-sdk-mediapackage', version='1.12.99')
@@ -6,14 +6,10 @@ package org.rd.plugin.awsmedialiveconsole
 import com.amazonaws.auth.*
 import com.amazonaws.auth.AWSCredentialsProvider
 import com.amazonaws.services.medialive.AWSMediaLiveClientBuilder
-import com.amazonaws.services.medialive.model.ListChannelsRequest
 import com.amazonaws.services.medialive.model.StopChannelRequest
 import com.amazonaws.services.medialive.model.StartChannelRequest
 
 import com.amazonaws.services.mediapackage.AWSMediaPackageClientBuilder
-import com.amazonaws.services.mediapackage.AWSMediaPackageClient
-import com.amazonaws.services.mediapackage.model.ListChannelsRequest
-import com.amazonaws.services.mediapackage.model.DescribeChannelRequest
 import com.amazonaws.services.mediapackage.model.ListOriginEndpointsRequest
 
 /**
@@ -23,13 +19,13 @@ public class MediaLiveConsole {
 
     def mediaLiveClient
     def mediaPackageClient
-    def siteService
+    def pluginConfig
 
     /**
      * constructor
      */
-    MediaLiveConsole(siteService) {
-        this.siteService = siteService
+    MediaLiveConsole(pluginConfig) {
+        this.pluginConfig = pluginConfig
     }
 
     /**
@@ -38,13 +34,11 @@ public class MediaLiveConsole {
      * @return object containing credentials
      */
     def lookupAwsMediaCredentials(siteId) {
-        def creds = [region: "", accessKey: "", secretKey: ""]
-        def siteConfiguration = this.siteService.getConfigurationAsDocument(siteId, "studio", "/site-config.xml", "")
+        def creds = [region: "", apiKey: "", apiSecret: ""]
 
-        creds.region = siteConfiguration.selectSingleNode("//awsmedialiveplugin/region").getText()
-        creds.accessKey = siteConfiguration.selectSingleNode("//awsmedialiveplugin/apikey").getText()
-        creds.secretKey = siteConfiguration.selectSingleNode("//awsmedialiveplugin/secret").getText()
-
+        creds.region = pluginConfig.getString("awsRegion")
+        creds.apiKey = pluginConfig.getString("awsApiKey")
+        creds.apiSecret = pluginConfig.getString("awsApiSecret")
         return creds
     }
 
@@ -56,7 +50,7 @@ public class MediaLiveConsole {
 
         if(this.mediaLiveClient == null) {
             def creds = this.lookupAwsMediaCredentials(siteId)
-            AWSCredentialsProvider credProvider = (AWSCredentialsProvider) (new AWSStaticCredentialsProvider( new BasicAWSCredentials(creds.accessKey, creds.secretKey)))
+            AWSCredentialsProvider credProvider = (AWSCredentialsProvider) (new AWSStaticCredentialsProvider( new BasicAWSCredentials(creds.apiKey, creds.apiSecret)))
             this.mediaLiveClient = AWSMediaLiveClientBuilder.standard().withRegion(creds.region).withCredentials(credProvider).build()
         }
 

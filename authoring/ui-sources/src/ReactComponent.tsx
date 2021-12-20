@@ -99,7 +99,7 @@ const ReactComponent = ({}: ExampleComponentProps) => {
     // @ts-ignore
     let siteId = craftercms.plugins.get("org.rd.plugin.awsmedialiveconsole").source.site
     // @ts-ignore
-    let serviceUrl = '/studio/api/2/plugin/script/org/rd/plugin/awsmedialiveconsole/medialiveconsole/list.json'
+    let serviceUrl = '/studio/api/2/plugin/script/plugins/org/rd/plugin/awsmedialiveconsole/medialiveconsole/list.json'
                    + '?siteId='+siteId
     
     // @ts-ignore
@@ -112,7 +112,7 @@ const ReactComponent = ({}: ExampleComponentProps) => {
     // @ts-ignore
     let siteId = craftercms.plugins.get("org.rd.plugin.awsmedialiveconsole").source.site
     // @ts-ignore
-    let serviceUrl = '/studio/api/2/plugin/script/org/rd/plugin/awsmedialiveconsole/medialiveconsole/control.json'
+    let serviceUrl = '/studio/api/2/plugin/script/plugins/org/rd/plugin/awsmedialiveconsole/medialiveconsole/control.json'
                    + '?siteId='+siteId
                    + '&action=start'
                    + '&channelId='+channelId
@@ -247,7 +247,7 @@ const ReactComponent = ({}: ExampleComponentProps) => {
 
               let epb = Object.entries(dest.endpoints as any).map(([endpointsIdx]) => {
                 let endpoint = dest.endpoints[endpointsIdx]
-                let buttonLabel = (endpoint.description) ? endpoint.description : endpoint.id
+                let buttonLabel = (endpoint.description) ? endpoint.description : endpoint.description
                 let button = (<div style={{ display: 'block' }}><Button size="small" color="primary" onClick={() => previewDestination(endpoint.url)}>{buttonLabel}</Button></div>)
                 return button
               })

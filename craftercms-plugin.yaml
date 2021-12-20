@@ -45,10 +45,22 @@ plugin:
   crafterCmsEditions:
     - community
     - enterprise
+  parameters:
+    - label: AWS API Key
+      name: awsApiKey
+      description: The AWS Api Key for your MediaLive and Media Package infrastructure.
+    - label: AWS API Secret
+      name: awsApiSecret
+      description: The AWS API Secret for your MediaLive and Media Package infrastructure.
+    - label: AWS Region
+      name: awsRegion
+      description: The AWS Region Secret for your MediaLive and Media Package infrastructure.
   installation:
-    - type: form-control
+    - type: preview-app
+      elementXpath: //widget[@id='org.rd.plugin.awsmedialiveconsole']
+      parentElement: //widget[@id='craftercms.components.ToolsPanel']/configuration/widgets
       element:
-        name: control
+        name: widget
         children:
           - name: plugin
             children:
@@ -63,4 +75,4 @@ plugin:
           - name: icon
             children:
               - name: class
-                value: fa-video
+                value: fa-video      

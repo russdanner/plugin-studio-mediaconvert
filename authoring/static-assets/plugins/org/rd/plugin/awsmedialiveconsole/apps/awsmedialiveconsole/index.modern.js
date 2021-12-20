@@ -3357,7 +3357,7 @@ var ReactComponent = function (_a) {
         // @ts-ignore
         var siteId = craftercms.plugins.get("org.rd.plugin.awsmedialiveconsole").source.site;
         // @ts-ignore
-        var serviceUrl = '/studio/api/2/plugin/script/org/rd/plugin/awsmedialiveconsole/medialiveconsole/list.json'
+        var serviceUrl = '/studio/api/2/plugin/script/plugins/org/rd/plugin/awsmedialiveconsole/medialiveconsole/list.json'
             + '?siteId=' + siteId;
         // @ts-ignore
         CrafterCMSNext.util.ajax.get(serviceUrl).subscribe(function (response) {
@@ -3368,7 +3368,7 @@ var ReactComponent = function (_a) {
         // @ts-ignore
         var siteId = craftercms.plugins.get("org.rd.plugin.awsmedialiveconsole").source.site;
         // @ts-ignore
-        var serviceUrl = '/studio/api/2/plugin/script/org/rd/plugin/awsmedialiveconsole/medialiveconsole/control.json'
+        var serviceUrl = '/studio/api/2/plugin/script/plugins/org/rd/plugin/awsmedialiveconsole/medialiveconsole/control.json'
             + '?siteId=' + siteId
             + '&action=start'
             + '&channelId=' + channelId;
@@ -3468,7 +3468,7 @@ var ReactComponent = function (_a) {
                             var epb = Object.entries(dest.endpoints).map(function (_a) {
                                 var endpointsIdx = _a[0];
                                 var endpoint = dest.endpoints[endpointsIdx];
-                                var buttonLabel = (endpoint.description) ? endpoint.description : endpoint.id;
+                                var buttonLabel = (endpoint.description) ? endpoint.description : endpoint.description;
                                 var button = (createElement("div", { style: { display: 'block' } },
                                     createElement(Button, { size: "small", color: "primary", onClick: function () { return previewDestination(endpoint.url); } }, buttonLabel)));
                                 return button;
