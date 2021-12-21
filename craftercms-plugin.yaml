@@ -16,7 +16,7 @@ plugin:
   version:
     major: 1
     minor: 0
-    patch: 3
+    patch: 4
   description: A plugin to provide a console to Studio users that supports starting, stoping and previewing AWS MediaLive channels
   documentation: "https://raw.githubusercontent.com/russdanner/plugin-studio-medialive/master/README.md"
   website:
@@ -57,7 +57,7 @@ plugin:
       description: The AWS Region Secret for your MediaLive and Media Package infrastructure.
   installation:
     - type: preview-app
-      elementXpath: //widget[@id='org.rd.plugin.awsmedialiveconsole']
+      elementXpath: //widget[@id='org.rd.plugin.awsmedialiveconsole.components.reactComponent']
       parentXpath: //widget[@id='craftercms.components.ToolsPanel']/configuration/widgets
       element:
         name: widget

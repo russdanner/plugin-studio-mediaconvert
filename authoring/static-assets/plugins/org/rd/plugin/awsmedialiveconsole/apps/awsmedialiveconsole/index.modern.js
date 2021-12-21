@@ -3381,7 +3381,7 @@ var ReactComponent = function (_a) {
         // @ts-ignore
         var siteId = craftercms.plugins.get("org.rd.plugin.awsmedialiveconsole").source.site;
         // @ts-ignore
-        var serviceUrl = '/studio/api/2/plugin/script/org/rd/plugin/awsmedialiveconsole/medialiveconsole/control.json'
+        var serviceUrl = '/studio/api/2/plugin/script/plugins/org/rd/plugin/awsmedialiveconsole/medialiveconsole/control.json'
             + '?siteId=' + siteId
             + '&action=stop'
             + '&channelId=' + channelId;

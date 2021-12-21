@@ -126,9 +126,9 @@ public class MediaLiveConsole {
      */
     def startChannel(channelId, siteId) {
         def mlClient = this.createMediaLiveClient(siteId)
-        mlClient.startChannel(new StartChannelRequest().withChannelId(channelId))
+        def result = mlClient.startChannel(new StartChannelRequest().withChannelId(channelId))
 
-        return true
+        return result
     }
 
     /**
@@ -138,8 +138,8 @@ public class MediaLiveConsole {
      */
     def stopChannel(channelId, siteId) {
         def mlClient = this.createMediaLiveClient(siteId)
-        mlClient.stopChannel(new StopChannelRequest().withChannelId(channelId))
+        def result = mlClient.stopChannel(new StopChannelRequest().withChannelId(channelId))
 
-        return true
+        return result
     }
 }
