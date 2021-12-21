@@ -58,21 +58,22 @@ plugin:
   installation:
     - type: preview-app
       elementXpath: //widget[@id='org.rd.plugin.awsmedialiveconsole']
-      parentElement: //widget[@id='craftercms.components.ToolsPanel']/configuration/widgets
+      parentXpath: //widget[@id='craftercms.components.ToolsPanel']/configuration/widgets
       element:
         name: widget
+        attributes:
+          - name: id
+            value: org.rd.plugin.awsmedialiveconsole.components.reactComponent
         children:
           - name: plugin
-            children:
-              - name: pluginId
+            attributes:
+              - name: id
                 value: org.rd.plugin.awsmedialiveconsole
+              - name: site
+                value: \{site\}
               - name: type
                 value: apps
               - name: name
                 value: awsmedialiveconsole
-              - name: filename
-                value: index.modern.js
-          - name: icon
-            children:
-              - name: class
-                value: fa-video      
+              - name: file
+                value: index.modern.js      

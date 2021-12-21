@@ -33,12 +33,13 @@ public class MediaLiveConsole {
      * @param siteId
      * @return object containing credentials
      */
-    def lookupAwsMediaCredentials(siteId) {
+    def lookupAwsMediaCredentials() {
         def creds = [region: "", apiKey: "", apiSecret: ""]
 
         creds.region = pluginConfig.getString("awsRegion")
         creds.apiKey = pluginConfig.getString("awsApiKey")
         creds.apiSecret = pluginConfig.getString("awsApiSecret")
+
         return creds
     }
 
@@ -49,7 +50,7 @@ public class MediaLiveConsole {
     def createMediaLiveClient(siteId) {
 
         if(this.mediaLiveClient == null) {
-            def creds = this.lookupAwsMediaCredentials(siteId)
+            def creds = this.lookupAwsMediaCredentials()
             AWSCredentialsProvider credProvider = (AWSCredentialsProvider) (new AWSStaticCredentialsProvider( new BasicAWSCredentials(creds.apiKey, creds.apiSecret)))
             this.mediaLiveClient = AWSMediaLiveClientBuilder.standard().withRegion(creds.region).withCredentials(credProvider).build()
         }
@@ -63,8 +64,8 @@ public class MediaLiveConsole {
      */
     def createMediaPackageClient(siteId) {
         if(this.mediaPackageClient == null) {
-            def creds = this.lookupAwsMediaCredentials(siteId)
-            AWSCredentialsProvider credProvider = (AWSCredentialsProvider) (new AWSStaticCredentialsProvider( new BasicAWSCredentials(creds.accessKey, creds.secretKey)))
+            def creds = this.lookupAwsMediaCredentials()
+            AWSCredentialsProvider credProvider = (AWSCredentialsProvider) (new AWSStaticCredentialsProvider( new BasicAWSCredentials(creds.apiKey, creds.apiSecret)))
             this.mediaPackageClient = AWSMediaPackageClientBuilder.standard().withRegion(creds.region).withCredentials(credProvider).build()
         }
 
