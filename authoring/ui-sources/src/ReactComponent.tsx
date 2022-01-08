@@ -196,20 +196,23 @@ const ReactComponent = ({}: ExampleComponentProps) => {
 
   return (
     <React.Fragment>
-      <div onClick={() => setOpen(true)} className="MuiButtonBase-root MuiListItem-root MuiListItem-gutters MuiListItem-padding MuiListItem-button css-qctd7"  >
-        <div className="MuiListItemIcon-root css-k9sfc6">
-          <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-vubbuv" focusable="false" viewBox="0 0 29 29" aria-hidden="true" data-testid="DashboardRoundedIcon">
+      <div onClick={() => setOpen(true)} className="MuiButtonBase-root MuiListItem-root MuiListItem-gutters MuiListItem-padding MuiListItem-button css-1kabypi" >
+        <div className="MuiListItemIcon-root css-1vytlk6">
+          <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-vubbuv" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="DashboardRoundedIcon">
             <path d="M17 21.5H4a2 2 0 01-2-2v-10a2 2 0 012-2h13a2 2 0 012 2v10a2 2 0 01-2 2zM21 11.5v6l4.445 2.964A1 1 0 0027 19.631V9.369a1 1 0 00-1.555-.832L21 11.5z"></path>
           </svg>
         </div>
-        <div className="MuiListItemText-root css-1tsvksn">
-          <span className="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap MuiListItemText-primary css-typdpm" >
-            AWS MediaLive Console
-          </span>
-        </div>
-        <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-vubbuv" focusable="false" viewBox="0 0 24 24" aria-hidden="true" data-testid="ChevronRightRoundedIcon"><path d="M9.29 6.71c-.39.39-.39 1.02 0 1.41L13.17 12l-3.88 3.88c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0l4.59-4.59c.39-.39.39-1.02 0-1.41L10.7 6.7c-.38-.38-1.02-.38-1.41.01z"></path></svg>
+      <div className="MuiListItemText-root css-1tsvksn">
+        <span className="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap MuiListItemText-primary css-typdpm">
+          AWS MediaLive Console
+        </span>
+      </div>
+        <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-vubbuv" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ChevronRightRoundedIcon">
+          <path d="M9.29 6.71c-.39.39-.39 1.02 0 1.41L13.17 12l-3.88 3.88c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0l4.59-4.59c.39-.39.39-1.02 0-1.41L10.7 6.7c-.38-.38-1.02-.38-1.41.01z"></path>
+        </svg>
         <span className="MuiTouchRipple-root css-w0pj6f"></span>
       </div>
+
 
       <Dialog fullWidth={false} maxWidth={'lg'} onClose={() => closePreview()} open={lightBoxOpen}>
         <video id="example-video" style={{width:600, height:300}} className="video-js vjs-default-skin" controls> </video>
