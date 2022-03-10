@@ -1,7 +1,7 @@
 import ReactComponent from './ReactComponent'
 
 const plugin /*: PluginDescriptor */ = {
-  id: 'org.rd.plugin.awsmedialiveconsole',
+  id: 'org.rd.plugin.awsmediaconvertconsole',
   name: 'Sample component library',
   description: 'An example plugin of a component library',
   author: 'Russ Danner',

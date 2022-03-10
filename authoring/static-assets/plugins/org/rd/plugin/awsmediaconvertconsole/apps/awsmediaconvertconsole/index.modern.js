@@ -12978,12 +12978,12 @@ var ReactComponent = function (_a) {
         if (!document.getElementById("se1")) {
             // gross
             // @ts-ignore
-            var siteId = craftercms.plugins.get("org.rd.plugin.awsmedialiveconsole").source.site;
+            var siteId = craftercms.plugins.get("org.rd.plugin.awsmediaconvertconsole").source.site;
             // @ts-ignore
             var baseAddress = "/studio/1/plugin/file"
                 + "?type=apps"
-                + "&name=awsmedialiveconsole"
-                + "&pluginId=org.rd.plugin.awsmedialiveconsole"
+                + "&name=awsmediaconvertconsole"
+                + "&pluginId=org.rd.plugin.awsmediaconvertconsole"
                 + "&siteId=" + siteId;
             var se1 = document.createElement("script");
             se1.src = baseAddress + "&filename=video.js";
@@ -13003,9 +13003,9 @@ var ReactComponent = function (_a) {
     }, []);
     var dataLoadChannels = function () {
         // @ts-ignore
-        var siteId = craftercms.plugins.get("org.rd.plugin.awsmedialiveconsole").source.site;
+        var siteId = craftercms.plugins.get("org.rd.plugin.awsmediaconvertconsole").source.site;
         // @ts-ignore
-        var serviceUrl = '/studio/api/2/plugin/script/plugins/org/rd/plugin/awsmedialiveconsole/medialiveconsole/list.json'
+        var serviceUrl = '/studio/api/2/plugin/script/plugins/org/rd/plugin/awsmediaconvertconsole/mediaconvertconsole/list.json'
             + '?siteId=' + siteId;
         // @ts-ignore
         CrafterCMSNext.util.ajax.get(serviceUrl).subscribe(function (response) {
@@ -13014,9 +13014,9 @@ var ReactComponent = function (_a) {
     };
     var handleToggleOn = function (channelId) {
         // @ts-ignore
-        var siteId = craftercms.plugins.get("org.rd.plugin.awsmedialiveconsole").source.site;
+        var siteId = craftercms.plugins.get("org.rd.plugin.awsmediaconvertconsole").source.site;
         // @ts-ignore
-        var serviceUrl = '/studio/api/2/plugin/script/plugins/org/rd/plugin/awsmedialiveconsole/medialiveconsole/control.json'
+        var serviceUrl = '/studio/api/2/plugin/script/plugins/org/rd/plugin/awsmediaconvertconsole/mediaconvertconsole/control.json'
             + '?siteId=' + siteId
             + '&action=start'
             + '&channelId=' + channelId;
@@ -13027,9 +13027,9 @@ var ReactComponent = function (_a) {
     };
     var handleToggleOff = function (channelId) {
         // @ts-ignore
-        var siteId = craftercms.plugins.get("org.rd.plugin.awsmedialiveconsole").source.site;
+        var siteId = craftercms.plugins.get("org.rd.plugin.awsmediaconvertconsole").source.site;
         // @ts-ignore
-        var serviceUrl = '/studio/api/2/plugin/script/plugins/org/rd/plugin/awsmedialiveconsole/medialiveconsole/control.json'
+        var serviceUrl = '/studio/api/2/plugin/script/plugins/org/rd/plugin/awsmediaconvertconsole/mediaconvertconsole/control.json'
             + '?siteId=' + siteId
             + '&action=stop'
             + '&channelId=' + channelId;
@@ -13084,11 +13084,11 @@ var ReactComponent = function (_a) {
         itemSize: 1
     }), state = _d[0], setState = _d[1];
     return (createElement(Fragment$1, null,
-        createElement(ToolsPanelListItemButton, { icon: { id: "@mui/icons-material/VideocamOutlined" }, title: "AWS MediaLive Console", onClick: function () { return setOpen(true); } }),
+        createElement(ToolsPanelListItemButton, { icon: { id: "@mui/icons-material/VideocamOutlined" }, title: "AWS MediaConvert Jobs", onClick: function () { return setOpen(true); } }),
         createElement(Dialog, { fullWidth: false, maxWidth: 'lg', onClose: function () { return closePreview(); }, open: lightBoxOpen },
             createElement("video", { id: "example-video", style: { width: 600, height: 300 }, className: "video-js vjs-default-skin", controls: true }, " ")),
         createElement(Dialog, { fullWidth: true, maxWidth: 'xl', onClose: function () { return setOpen(false); }, "aria-labelledby": "simple-dialog-title", open: open },
-            createElement(DialogTitle, { id: "max-width-dialog-title" }, "AWS MediaLive Console"),
+            createElement(DialogTitle, { id: "max-width-dialog-title" }, "AWS MediaConvert Jobs"),
             createElement(TableContainer, { component: Paper },
                 createElement(Table, { sx: { minWidth: 650 }, "aria-label": "simple table" },
                     createElement(TableHead, null,
@@ -13135,7 +13135,7 @@ var ReactComponent = function (_a) {
 };
 
 var plugin /*: PluginDescriptor */ = {
-    id: 'org.rd.plugin.awsmedialiveconsole',
+    id: 'org.rd.plugin.awsmediaconvertconsole',
     name: 'Sample component library',
     description: 'An example plugin of a component library',
     author: 'Russ Danner',
@@ -13143,7 +13143,7 @@ var plugin /*: PluginDescriptor */ = {
     locales: {},
     apps: [],
     widgets: {
-        'org.rd.plugin.awsmedialiveconsole.components.reactComponent': ReactComponent
+        'org.rd.plugin.awsmediaconvertconsole.components.reactComponent': ReactComponent
     },
     scripts: [],
     stylesheets: [],
