@@ -9,7 +9,7 @@ const plugin /*: PluginDescriptor */ = {
   locales: {},
   apps: [],
   widgets: {
-    'org.rd.plugin.awsmedialiveconsole.components.reactComponent': ReactComponent
+    'org.rd.plugin.awsmediaconvertconsole.components.reactComponent': ReactComponent
   },
   scripts: [],
   stylesheets: [],
