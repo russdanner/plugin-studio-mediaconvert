@@ -1,8 +1,8 @@
-var { forwardRef, useContext, createContext, createElement, Fragment: Fragment$1, isValidElement, useLayoutEffect, useEffect, useRef, useCallback, useMemo, Children, cloneElement, useState, useImperativeHandle, Suspense: Suspense$1 } = craftercms.libs.React;
+var { isValidElement, useLayoutEffect, useEffect, useRef, useCallback, useMemo, forwardRef, useContext, createContext, createElement, Fragment: Fragment$1, Children, cloneElement, useState, useImperativeHandle, Suspense: Suspense$1 } = craftercms.libs.React;
 var React = craftercms.libs.React && Object.prototype.hasOwnProperty.call(craftercms.libs.React, 'default') ? craftercms.libs.React['default'] : craftercms.libs.React;
 var _utils = craftercms.libs.MaterialUI && Object.prototype.hasOwnProperty.call(craftercms.libs.MaterialUI, 'default') ? craftercms.libs.MaterialUI['default'] : craftercms.libs.MaterialUI;
 var { createIntl, createIntlCache, useIntl } = craftercms.libs.ReactIntl;
-var { Skeleton, Tooltip, Switch, Dialog, DialogTitle, TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, Button, FormControlLabel } = craftercms.libs.MaterialUI;
+var { Skeleton, Tooltip, Dialog, DialogTitle, TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody } = craftercms.libs.MaterialUI;
 
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation.
@@ -44,6 +44,21 @@ var __assign = function() {
     return __assign.apply(this, arguments);
 };
 
+function _objectWithoutPropertiesLoose(source, excluded) {
+  if (source == null) return {};
+  var target = {};
+  var sourceKeys = Object.keys(source);
+  var key, i;
+
+  for (i = 0; i < sourceKeys.length; i++) {
+    key = sourceKeys[i];
+    if (excluded.indexOf(key) >= 0) continue;
+    target[key] = source[key];
+  }
+
+  return target;
+}
+
 function _extends() {
   _extends = Object.assign || function (target) {
     for (var i = 1; i < arguments.length; i++) {
@@ -60,21 +75,6 @@ function _extends() {
   };
 
   return _extends.apply(this, arguments);
-}
-
-function _objectWithoutPropertiesLoose(source, excluded) {
-  if (source == null) return {};
-  var target = {};
-  var sourceKeys = Object.keys(source);
-  var key, i;
-
-  for (i = 0; i < sourceKeys.length; i++) {
-    key = sourceKeys[i];
-    if (excluded.indexOf(key) >= 0) continue;
-    target[key] = source[key];
-  }
-
-  return target;
 }
 
 function getDefaultExportFromCjs (x) {
@@ -94,6 +94,610 @@ function createCommonjsModule(fn, basedir, module) {
 function commonjsRequire () {
 	throw new Error('Dynamic requires are not currently supported by @rollup/plugin-commonjs');
 }
+
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+var ReactPropTypesSecret = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED';
+
+var ReactPropTypesSecret_1 = ReactPropTypesSecret;
+
+function emptyFunction() {}
+function emptyFunctionWithReset() {}
+emptyFunctionWithReset.resetWarningCache = emptyFunction;
+
+var factoryWithThrowingShims = function() {
+  function shim(props, propName, componentName, location, propFullName, secret) {
+    if (secret === ReactPropTypesSecret_1) {
+      // It is still safe when called from React.
+      return;
+    }
+    var err = new Error(
+      'Calling PropTypes validators directly is not supported by the `prop-types` package. ' +
+      'Use PropTypes.checkPropTypes() to call them. ' +
+      'Read more at http://fb.me/use-check-prop-types'
+    );
+    err.name = 'Invariant Violation';
+    throw err;
+  }  shim.isRequired = shim;
+  function getShim() {
+    return shim;
+  }  // Important!
+  // Keep this list in sync with production version in `./factoryWithTypeCheckers.js`.
+  var ReactPropTypes = {
+    array: shim,
+    bool: shim,
+    func: shim,
+    number: shim,
+    object: shim,
+    string: shim,
+    symbol: shim,
+
+    any: shim,
+    arrayOf: getShim,
+    element: shim,
+    elementType: shim,
+    instanceOf: getShim,
+    node: shim,
+    objectOf: getShim,
+    oneOf: getShim,
+    oneOfType: getShim,
+    shape: getShim,
+    exact: getShim,
+
+    checkPropTypes: emptyFunctionWithReset,
+    resetWarningCache: emptyFunction
+  };
+
+  ReactPropTypes.PropTypes = ReactPropTypes;
+
+  return ReactPropTypes;
+};
+
+var propTypes = createCommonjsModule(function (module) {
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+{
+  // By explicitly using `prop-types` you are opting into new production behavior.
+  // http://fb.me/prop-types-in-prod
+  module.exports = factoryWithThrowingShims();
+}
+});
+
+function toVal(mix) {
+	var k, y, str='';
+
+	if (typeof mix === 'string' || typeof mix === 'number') {
+		str += mix;
+	} else if (typeof mix === 'object') {
+		if (Array.isArray(mix)) {
+			for (k=0; k < mix.length; k++) {
+				if (mix[k]) {
+					if (y = toVal(mix[k])) {
+						str && (str += ' ');
+						str += y;
+					}
+				}
+			}
+		} else {
+			for (k in mix) {
+				if (mix[k]) {
+					str && (str += ' ');
+					str += k;
+				}
+			}
+		}
+	}
+
+	return str;
+}
+
+function clsx () {
+	var i=0, tmp, x, str='';
+	while (i < arguments.length) {
+		if (tmp = arguments[i++]) {
+			if (x = toVal(tmp)) {
+				str && (str += ' ');
+				str += x;
+			}
+		}
+	}
+	return str;
+}
+
+function _extends$1() {
+  _extends$1 = Object.assign || function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i];
+
+      for (var key in source) {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
+          target[key] = source[key];
+        }
+      }
+    }
+
+    return target;
+  };
+
+  return _extends$1.apply(this, arguments);
+}
+
+function isPlainObject(item) {
+  return item !== null && typeof item === 'object' && // TS thinks `item is possibly null` even though this was our first guard.
+  // @ts-expect-error
+  item.constructor === Object;
+}
+function deepmerge(target, source, options = {
+  clone: true
+}) {
+  const output = options.clone ? _extends$1({}, target) : target;
+
+  if (isPlainObject(target) && isPlainObject(source)) {
+    Object.keys(source).forEach(key => {
+      // Avoid prototype pollution
+      if (key === '__proto__') {
+        return;
+      }
+
+      if (isPlainObject(source[key]) && key in target && isPlainObject(target[key])) {
+        // Since `output` is a clone of `target` and we have narrowed `target` in this block we can cast to the same type.
+        output[key] = deepmerge(target[key], source[key], options);
+      } else {
+        output[key] = source[key];
+      }
+    });
+  }
+
+  return output;
+}
+
+/**
+ * WARNING: Don't import this directly.
+ * Use `MuiError` from `@mui/utils/macros/MuiError.macro` instead.
+ * @param {number} code
+ */
+function formatMuiErrorMessage(code) {
+  // Apply babel-plugin-transform-template-literals in loose mode
+  // loose mode is safe iff we're concatenating primitives
+  // see https://babeljs.io/docs/en/babel-plugin-transform-template-literals#loose
+
+  /* eslint-disable prefer-template */
+  let url = 'https://mui.com/production-error/?code=' + code;
+
+  for (let i = 1; i < arguments.length; i += 1) {
+    // rest params over-transpile for this case
+    // eslint-disable-next-line prefer-rest-params
+    url += '&args[]=' + encodeURIComponent(arguments[i]);
+  }
+
+  return 'Minified MUI error #' + code + '; visit ' + url + ' for the full message.';
+  /* eslint-enable prefer-template */
+}
+
+// It should to be noted that this function isn't equivalent to `text-transform: capitalize`.
+//
+// A strict capitalization should uppercase the first letter of each word in the sentence.
+// We only handle the first word.
+function capitalize(string) {
+  if (typeof string !== 'string') {
+    throw new Error( formatMuiErrorMessage(7));
+  }
+
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+function isMuiElement(element, muiNames) {
+  return /*#__PURE__*/isValidElement(element) && muiNames.indexOf(element.type.muiName) !== -1;
+}
+
+/**
+ * TODO v5: consider making it private
+ *
+ * passes {value} to {ref}
+ *
+ * WARNING: Be sure to only call this inside a callback that is passed as a ref.
+ * Otherwise, make sure to cleanup the previous {ref} if it changes. See
+ * https://github.com/mui-org/material-ui/issues/13539
+ *
+ * Useful if you want to expose the ref of an inner component to the public API
+ * while still using it inside the component.
+ * @param ref A ref callback or ref object. If anything falsy, this is a no-op.
+ */
+function setRef(ref, value) {
+  if (typeof ref === 'function') {
+    ref(value);
+  } else if (ref) {
+    ref.current = value;
+  }
+}
+
+const useEnhancedEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect;
+
+/**
+ * https://github.com/facebook/react/issues/14099#issuecomment-440013892
+ */
+
+function useEventCallback(fn) {
+  const ref = useRef(fn);
+  useEnhancedEffect(() => {
+    ref.current = fn;
+  });
+  return useCallback((...args) => // @ts-expect-error hide `this`
+  // tslint:disable-next-line:ban-comma-operator
+  (0, ref.current)(...args), []);
+}
+
+function useForkRef(refA, refB) {
+  /**
+   * This will create a new function if the ref props change and are defined.
+   * This means react will call the old forkRef with `null` and the new forkRef
+   * with the ref. Cleanup naturally emerges from this behavior.
+   */
+  return useMemo(() => {
+    if (refA == null && refB == null) {
+      return null;
+    }
+
+    return refValue => {
+      setRef(refA, refValue);
+      setRef(refB, refValue);
+    };
+  }, [refA, refB]);
+}
+
+// based on https://github.com/WICG/focus-visible/blob/v4.1.5/src/focus-visible.js
+let hadKeyboardEvent = true;
+let hadFocusVisibleRecently = false;
+let hadFocusVisibleRecentlyTimeout = null;
+const inputTypesWhitelist = {
+  text: true,
+  search: true,
+  url: true,
+  tel: true,
+  email: true,
+  password: true,
+  number: true,
+  date: true,
+  month: true,
+  week: true,
+  time: true,
+  datetime: true,
+  'datetime-local': true
+};
+/**
+ * Computes whether the given element should automatically trigger the
+ * `focus-visible` class being added, i.e. whether it should always match
+ * `:focus-visible` when focused.
+ * @param {Element} node
+ * @returns {boolean}
+ */
+
+function focusTriggersKeyboardModality(node) {
+  const {
+    type,
+    tagName
+  } = node;
+
+  if (tagName === 'INPUT' && inputTypesWhitelist[type] && !node.readOnly) {
+    return true;
+  }
+
+  if (tagName === 'TEXTAREA' && !node.readOnly) {
+    return true;
+  }
+
+  if (node.isContentEditable) {
+    return true;
+  }
+
+  return false;
+}
+/**
+ * Keep track of our keyboard modality state with `hadKeyboardEvent`.
+ * If the most recent user interaction was via the keyboard;
+ * and the key press did not include a meta, alt/option, or control key;
+ * then the modality is keyboard. Otherwise, the modality is not keyboard.
+ * @param {KeyboardEvent} event
+ */
+
+
+function handleKeyDown(event) {
+  if (event.metaKey || event.altKey || event.ctrlKey) {
+    return;
+  }
+
+  hadKeyboardEvent = true;
+}
+/**
+ * If at any point a user clicks with a pointing device, ensure that we change
+ * the modality away from keyboard.
+ * This avoids the situation where a user presses a key on an already focused
+ * element, and then clicks on a different element, focusing it with a
+ * pointing device, while we still think we're in keyboard modality.
+ */
+
+
+function handlePointerDown() {
+  hadKeyboardEvent = false;
+}
+
+function handleVisibilityChange() {
+  if (this.visibilityState === 'hidden') {
+    // If the tab becomes active again, the browser will handle calling focus
+    // on the element (Safari actually calls it twice).
+    // If this tab change caused a blur on an element with focus-visible,
+    // re-apply the class when the user switches back to the tab.
+    if (hadFocusVisibleRecently) {
+      hadKeyboardEvent = true;
+    }
+  }
+}
+
+function prepare(doc) {
+  doc.addEventListener('keydown', handleKeyDown, true);
+  doc.addEventListener('mousedown', handlePointerDown, true);
+  doc.addEventListener('pointerdown', handlePointerDown, true);
+  doc.addEventListener('touchstart', handlePointerDown, true);
+  doc.addEventListener('visibilitychange', handleVisibilityChange, true);
+}
+
+function isFocusVisible(event) {
+  const {
+    target
+  } = event;
+
+  try {
+    return target.matches(':focus-visible');
+  } catch (error) {// Browsers not implementing :focus-visible will throw a SyntaxError.
+    // We use our own heuristic for those browsers.
+    // Rethrow might be better if it's not the expected error but do we really
+    // want to crash if focus-visible malfunctioned?
+  } // No need for validFocusTarget check. The user does that by attaching it to
+  // focusable events only.
+
+
+  return hadKeyboardEvent || focusTriggersKeyboardModality(target);
+}
+
+function useIsFocusVisible() {
+  const ref = useCallback(node => {
+    if (node != null) {
+      prepare(node.ownerDocument);
+    }
+  }, []);
+  const isFocusVisibleRef = useRef(false);
+  /**
+   * Should be called if a blur event is fired
+   */
+
+  function handleBlurVisible() {
+    // checking against potential state variable does not suffice if we focus and blur synchronously.
+    // React wouldn't have time to trigger a re-render so `focusVisible` would be stale.
+    // Ideally we would adjust `isFocusVisible(event)` to look at `relatedTarget` for blur events.
+    // This doesn't work in IE11 due to https://github.com/facebook/react/issues/3751
+    // TODO: check again if React releases their internal changes to focus event handling (https://github.com/facebook/react/pull/19186).
+    if (isFocusVisibleRef.current) {
+      // To detect a tab/window switch, we look for a blur event followed
+      // rapidly by a visibility change.
+      // If we don't see a visibility change within 100ms, it's probably a
+      // regular focus change.
+      hadFocusVisibleRecently = true;
+      window.clearTimeout(hadFocusVisibleRecentlyTimeout);
+      hadFocusVisibleRecentlyTimeout = window.setTimeout(() => {
+        hadFocusVisibleRecently = false;
+      }, 100);
+      isFocusVisibleRef.current = false;
+      return true;
+    }
+
+    return false;
+  }
+  /**
+   * Should be called if a blur event is fired
+   */
+
+
+  function handleFocusVisible(event) {
+    if (isFocusVisible(event)) {
+      isFocusVisibleRef.current = true;
+      return true;
+    }
+
+    return false;
+  }
+
+  return {
+    isFocusVisibleRef,
+    onFocus: handleFocusVisible,
+    onBlur: handleBlurVisible,
+    ref
+  };
+}
+
+function composeClasses(slots, getUtilityClass, classes) {
+  const output = {};
+  Object.keys(slots).forEach( // `Objet.keys(slots)` can't be wider than `T` because we infer `T` from `slots`.
+  // @ts-expect-error https://github.com/microsoft/TypeScript/pull/12253#issuecomment-263132208
+  slot => {
+    output[slot] = slots[slot].reduce((acc, key) => {
+      if (key) {
+        if (classes && classes[key]) {
+          acc.push(classes[key]);
+        }
+
+        acc.push(getUtilityClass(key));
+      }
+
+      return acc;
+    }, []).join(' ');
+  });
+  return output;
+}
+
+/**
+ * Determines if a given element is a DOM element name (i.e. not a React component).
+ */
+function isHostComponent(element) {
+  return typeof element === 'string';
+}
+
+const defaultGenerator = componentName => componentName;
+
+const createClassNameGenerator = () => {
+  let generate = defaultGenerator;
+  return {
+    configure(generator) {
+      generate = generator;
+    },
+
+    generate(componentName) {
+      return generate(componentName);
+    },
+
+    reset() {
+      generate = defaultGenerator;
+    }
+
+  };
+};
+
+const ClassNameGenerator = createClassNameGenerator();
+
+const globalStateClassesMapping = {
+  active: 'Mui-active',
+  checked: 'Mui-checked',
+  completed: 'Mui-completed',
+  disabled: 'Mui-disabled',
+  error: 'Mui-error',
+  expanded: 'Mui-expanded',
+  focused: 'Mui-focused',
+  focusVisible: 'Mui-focusVisible',
+  required: 'Mui-required',
+  selected: 'Mui-selected'
+};
+function generateUtilityClass(componentName, slot) {
+  const globalStateClass = globalStateClassesMapping[slot];
+  return globalStateClass || `${ClassNameGenerator.generate(componentName)}-${slot}`;
+}
+
+function generateUtilityClasses(componentName, slots) {
+  const result = {};
+  slots.forEach(slot => {
+    result[slot] = generateUtilityClass(componentName, slot);
+  });
+  return result;
+}
+
+/*
+object-assign
+(c) Sindre Sorhus
+@license MIT
+*/
+/* eslint-disable no-unused-vars */
+var getOwnPropertySymbols = Object.getOwnPropertySymbols;
+var hasOwnProperty = Object.prototype.hasOwnProperty;
+var propIsEnumerable = Object.prototype.propertyIsEnumerable;
+
+function toObject(val) {
+	if (val === null || val === undefined) {
+		throw new TypeError('Object.assign cannot be called with null or undefined');
+	}
+
+	return Object(val);
+}
+
+function shouldUseNative() {
+	try {
+		if (!Object.assign) {
+			return false;
+		}
+
+		// Detect buggy property enumeration order in older V8 versions.
+
+		// https://bugs.chromium.org/p/v8/issues/detail?id=4118
+		var test1 = new String('abc');  // eslint-disable-line no-new-wrappers
+		test1[5] = 'de';
+		if (Object.getOwnPropertyNames(test1)[0] === '5') {
+			return false;
+		}
+
+		// https://bugs.chromium.org/p/v8/issues/detail?id=3056
+		var test2 = {};
+		for (var i = 0; i < 10; i++) {
+			test2['_' + String.fromCharCode(i)] = i;
+		}
+		var order2 = Object.getOwnPropertyNames(test2).map(function (n) {
+			return test2[n];
+		});
+		if (order2.join('') !== '0123456789') {
+			return false;
+		}
+
+		// https://bugs.chromium.org/p/v8/issues/detail?id=3056
+		var test3 = {};
+		'abcdefghijklmnopqrst'.split('').forEach(function (letter) {
+			test3[letter] = letter;
+		});
+		if (Object.keys(Object.assign({}, test3)).join('') !==
+				'abcdefghijklmnopqrst') {
+			return false;
+		}
+
+		return true;
+	} catch (err) {
+		// We don't expect any of the above to throw, but better to be safe.
+		return false;
+	}
+}
+
+var objectAssign = shouldUseNative() ? Object.assign : function (target, source) {
+	var from;
+	var to = toObject(target);
+	var symbols;
+
+	for (var s = 1; s < arguments.length; s++) {
+		from = Object(arguments[s]);
+
+		for (var key in from) {
+			if (hasOwnProperty.call(from, key)) {
+				to[key] = from[key];
+			}
+		}
+
+		if (getOwnPropertySymbols) {
+			symbols = getOwnPropertySymbols(from);
+			for (var i = 0; i < symbols.length; i++) {
+				if (propIsEnumerable.call(from, symbols[i])) {
+					to[symbols[i]] = from[symbols[i]];
+				}
+			}
+		}
+	}
+
+	return to;
+};
+
+var reactJsxRuntime_production_min = createCommonjsModule(function (module, exports) {
+var g=60103;exports.Fragment=60107;if("function"===typeof Symbol&&Symbol.for){var h=Symbol.for;g=h("react.element");exports.Fragment=h("react.fragment");}var m=React.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.ReactCurrentOwner,n=Object.prototype.hasOwnProperty,p={key:!0,ref:!0,__self:!0,__source:!0};
+function q(c,a,k){var b,d={},e=null,l=null;void 0!==k&&(e=""+k);void 0!==a.key&&(e=""+a.key);void 0!==a.ref&&(l=a.ref);for(b in a)n.call(a,b)&&!p.hasOwnProperty(b)&&(d[b]=a[b]);if(c&&c.defaultProps)for(b in a=c.defaultProps,a)void 0===d[b]&&(d[b]=a[b]);return {$$typeof:g,type:c,key:e,ref:l,props:d,_owner:m.current}}exports.jsx=q;exports.jsxs=q;
+});
+
+var jsxRuntime = createCommonjsModule(function (module) {
+
+{
+  module.exports = reactJsxRuntime_production_min;
+}
+});
 
 var _extends_1 = createCommonjsModule(function (module) {
 function _extends() {
@@ -139,8 +743,8 @@ var isPropValid = /* #__PURE__ */memoize(function (prop) {
 /* Z+1 */
 );
 
-function _extends$1() {
-  _extends$1 = Object.assign || function (target) {
+function _extends$2() {
+  _extends$2 = Object.assign || function (target) {
     for (var i = 1; i < arguments.length; i++) {
       var source = arguments[i];
 
@@ -154,7 +758,7 @@ function _extends$1() {
     return target;
   };
 
-  return _extends$1.apply(this, arguments);
+  return _extends$2.apply(this, arguments);
 }
 
 /*
@@ -1263,7 +1867,7 @@ var createStyled = function createStyled(tag, options) {
     });
 
     Styled.withComponent = function (nextTag, nextOptions) {
-      return createStyled(nextTag, _extends$1({}, options, nextOptions, {
+      return createStyled(nextTag, _extends$2({}, options, nextOptions, {
         shouldForwardProp: composeShouldForwardProps(Styled, nextOptions, true)
       })).apply(void 0, styles);
     };
@@ -1281,185 +1885,6 @@ tags.forEach(function (tagName) {
   newStyled[tagName] = newStyled(tagName);
 });
 
-/**
- * Copyright (c) 2013-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
-var ReactPropTypesSecret = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED';
-
-var ReactPropTypesSecret_1 = ReactPropTypesSecret;
-
-function emptyFunction() {}
-function emptyFunctionWithReset() {}
-emptyFunctionWithReset.resetWarningCache = emptyFunction;
-
-var factoryWithThrowingShims = function() {
-  function shim(props, propName, componentName, location, propFullName, secret) {
-    if (secret === ReactPropTypesSecret_1) {
-      // It is still safe when called from React.
-      return;
-    }
-    var err = new Error(
-      'Calling PropTypes validators directly is not supported by the `prop-types` package. ' +
-      'Use PropTypes.checkPropTypes() to call them. ' +
-      'Read more at http://fb.me/use-check-prop-types'
-    );
-    err.name = 'Invariant Violation';
-    throw err;
-  }  shim.isRequired = shim;
-  function getShim() {
-    return shim;
-  }  // Important!
-  // Keep this list in sync with production version in `./factoryWithTypeCheckers.js`.
-  var ReactPropTypes = {
-    array: shim,
-    bool: shim,
-    func: shim,
-    number: shim,
-    object: shim,
-    string: shim,
-    symbol: shim,
-
-    any: shim,
-    arrayOf: getShim,
-    element: shim,
-    elementType: shim,
-    instanceOf: getShim,
-    node: shim,
-    objectOf: getShim,
-    oneOf: getShim,
-    oneOfType: getShim,
-    shape: getShim,
-    exact: getShim,
-
-    checkPropTypes: emptyFunctionWithReset,
-    resetWarningCache: emptyFunction
-  };
-
-  ReactPropTypes.PropTypes = ReactPropTypes;
-
-  return ReactPropTypes;
-};
-
-var propTypes = createCommonjsModule(function (module) {
-/**
- * Copyright (c) 2013-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
-{
-  // By explicitly using `prop-types` you are opting into new production behavior.
-  // http://fb.me/prop-types-in-prod
-  module.exports = factoryWithThrowingShims();
-}
-});
-
-/*
-object-assign
-(c) Sindre Sorhus
-@license MIT
-*/
-/* eslint-disable no-unused-vars */
-var getOwnPropertySymbols = Object.getOwnPropertySymbols;
-var hasOwnProperty = Object.prototype.hasOwnProperty;
-var propIsEnumerable = Object.prototype.propertyIsEnumerable;
-
-function toObject(val) {
-	if (val === null || val === undefined) {
-		throw new TypeError('Object.assign cannot be called with null or undefined');
-	}
-
-	return Object(val);
-}
-
-function shouldUseNative() {
-	try {
-		if (!Object.assign) {
-			return false;
-		}
-
-		// Detect buggy property enumeration order in older V8 versions.
-
-		// https://bugs.chromium.org/p/v8/issues/detail?id=4118
-		var test1 = new String('abc');  // eslint-disable-line no-new-wrappers
-		test1[5] = 'de';
-		if (Object.getOwnPropertyNames(test1)[0] === '5') {
-			return false;
-		}
-
-		// https://bugs.chromium.org/p/v8/issues/detail?id=3056
-		var test2 = {};
-		for (var i = 0; i < 10; i++) {
-			test2['_' + String.fromCharCode(i)] = i;
-		}
-		var order2 = Object.getOwnPropertyNames(test2).map(function (n) {
-			return test2[n];
-		});
-		if (order2.join('') !== '0123456789') {
-			return false;
-		}
-
-		// https://bugs.chromium.org/p/v8/issues/detail?id=3056
-		var test3 = {};
-		'abcdefghijklmnopqrst'.split('').forEach(function (letter) {
-			test3[letter] = letter;
-		});
-		if (Object.keys(Object.assign({}, test3)).join('') !==
-				'abcdefghijklmnopqrst') {
-			return false;
-		}
-
-		return true;
-	} catch (err) {
-		// We don't expect any of the above to throw, but better to be safe.
-		return false;
-	}
-}
-
-var objectAssign = shouldUseNative() ? Object.assign : function (target, source) {
-	var from;
-	var to = toObject(target);
-	var symbols;
-
-	for (var s = 1; s < arguments.length; s++) {
-		from = Object(arguments[s]);
-
-		for (var key in from) {
-			if (hasOwnProperty.call(from, key)) {
-				to[key] = from[key];
-			}
-		}
-
-		if (getOwnPropertySymbols) {
-			symbols = getOwnPropertySymbols(from);
-			for (var i = 0; i < symbols.length; i++) {
-				if (propIsEnumerable.call(from, symbols[i])) {
-					to[symbols[i]] = from[symbols[i]];
-				}
-			}
-		}
-	}
-
-	return to;
-};
-
-var reactJsxRuntime_production_min = createCommonjsModule(function (module, exports) {
-var g=60103;exports.Fragment=60107;if("function"===typeof Symbol&&Symbol.for){var h=Symbol.for;g=h("react.element");exports.Fragment=h("react.fragment");}var m=React.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.ReactCurrentOwner,n=Object.prototype.hasOwnProperty,p={key:!0,ref:!0,__self:!0,__source:!0};
-function q(c,a,k){var b,d={},e=null,l=null;void 0!==k&&(e=""+k);void 0!==a.key&&(e=""+a.key);void 0!==a.ref&&(l=a.ref);for(b in a)n.call(a,b)&&!p.hasOwnProperty(b)&&(d[b]=a[b]);if(c&&c.defaultProps)for(b in a=c.defaultProps,a)void 0===d[b]&&(d[b]=a[b]);return {$$typeof:g,type:c,key:e,ref:l,props:d,_owner:m.current}}exports.jsx=q;exports.jsxs=q;
-});
-
-var jsxRuntime = createCommonjsModule(function (module) {
-
-{
-  module.exports = reactJsxRuntime_production_min;
-}
-});
-
 /** @license MUI v5.0.2
  *
  * This source code is licensed under the MIT license found in the
@@ -1469,316 +1894,6 @@ function styled(tag, options) {
   const stylesFactory = newStyled(tag, options);
 
   return stylesFactory;
-}
-
-function _extends$2() {
-  _extends$2 = Object.assign || function (target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i];
-
-      for (var key in source) {
-        if (Object.prototype.hasOwnProperty.call(source, key)) {
-          target[key] = source[key];
-        }
-      }
-    }
-
-    return target;
-  };
-
-  return _extends$2.apply(this, arguments);
-}
-
-function isPlainObject(item) {
-  return item !== null && typeof item === 'object' && // TS thinks `item is possibly null` even though this was our first guard.
-  // @ts-expect-error
-  item.constructor === Object;
-}
-function deepmerge(target, source, options = {
-  clone: true
-}) {
-  const output = options.clone ? _extends$2({}, target) : target;
-
-  if (isPlainObject(target) && isPlainObject(source)) {
-    Object.keys(source).forEach(key => {
-      // Avoid prototype pollution
-      if (key === '__proto__') {
-        return;
-      }
-
-      if (isPlainObject(source[key]) && key in target && isPlainObject(target[key])) {
-        // Since `output` is a clone of `target` and we have narrowed `target` in this block we can cast to the same type.
-        output[key] = deepmerge(target[key], source[key], options);
-      } else {
-        output[key] = source[key];
-      }
-    });
-  }
-
-  return output;
-}
-
-/**
- * WARNING: Don't import this directly.
- * Use `MuiError` from `@mui/utils/macros/MuiError.macro` instead.
- * @param {number} code
- */
-function formatMuiErrorMessage(code) {
-  // Apply babel-plugin-transform-template-literals in loose mode
-  // loose mode is safe iff we're concatenating primitives
-  // see https://babeljs.io/docs/en/babel-plugin-transform-template-literals#loose
-
-  /* eslint-disable prefer-template */
-  let url = 'https://mui.com/production-error/?code=' + code;
-
-  for (let i = 1; i < arguments.length; i += 1) {
-    // rest params over-transpile for this case
-    // eslint-disable-next-line prefer-rest-params
-    url += '&args[]=' + encodeURIComponent(arguments[i]);
-  }
-
-  return 'Minified MUI error #' + code + '; visit ' + url + ' for the full message.';
-  /* eslint-enable prefer-template */
-}
-
-// It should to be noted that this function isn't equivalent to `text-transform: capitalize`.
-//
-// A strict capitalization should uppercase the first letter of each word in the sentence.
-// We only handle the first word.
-function capitalize(string) {
-  if (typeof string !== 'string') {
-    throw new Error( formatMuiErrorMessage(7));
-  }
-
-  return string.charAt(0).toUpperCase() + string.slice(1);
-}
-
-function isMuiElement(element, muiNames) {
-  return /*#__PURE__*/isValidElement(element) && muiNames.indexOf(element.type.muiName) !== -1;
-}
-
-/**
- * TODO v5: consider making it private
- *
- * passes {value} to {ref}
- *
- * WARNING: Be sure to only call this inside a callback that is passed as a ref.
- * Otherwise, make sure to cleanup the previous {ref} if it changes. See
- * https://github.com/mui-org/material-ui/issues/13539
- *
- * Useful if you want to expose the ref of an inner component to the public API
- * while still using it inside the component.
- * @param ref A ref callback or ref object. If anything falsy, this is a no-op.
- */
-function setRef(ref, value) {
-  if (typeof ref === 'function') {
-    ref(value);
-  } else if (ref) {
-    ref.current = value;
-  }
-}
-
-const useEnhancedEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect;
-
-/**
- * https://github.com/facebook/react/issues/14099#issuecomment-440013892
- */
-
-function useEventCallback(fn) {
-  const ref = useRef(fn);
-  useEnhancedEffect(() => {
-    ref.current = fn;
-  });
-  return useCallback((...args) => // @ts-expect-error hide `this`
-  // tslint:disable-next-line:ban-comma-operator
-  (0, ref.current)(...args), []);
-}
-
-function useForkRef(refA, refB) {
-  /**
-   * This will create a new function if the ref props change and are defined.
-   * This means react will call the old forkRef with `null` and the new forkRef
-   * with the ref. Cleanup naturally emerges from this behavior.
-   */
-  return useMemo(() => {
-    if (refA == null && refB == null) {
-      return null;
-    }
-
-    return refValue => {
-      setRef(refA, refValue);
-      setRef(refB, refValue);
-    };
-  }, [refA, refB]);
-}
-
-// based on https://github.com/WICG/focus-visible/blob/v4.1.5/src/focus-visible.js
-let hadKeyboardEvent = true;
-let hadFocusVisibleRecently = false;
-let hadFocusVisibleRecentlyTimeout = null;
-const inputTypesWhitelist = {
-  text: true,
-  search: true,
-  url: true,
-  tel: true,
-  email: true,
-  password: true,
-  number: true,
-  date: true,
-  month: true,
-  week: true,
-  time: true,
-  datetime: true,
-  'datetime-local': true
-};
-/**
- * Computes whether the given element should automatically trigger the
- * `focus-visible` class being added, i.e. whether it should always match
- * `:focus-visible` when focused.
- * @param {Element} node
- * @returns {boolean}
- */
-
-function focusTriggersKeyboardModality(node) {
-  const {
-    type,
-    tagName
-  } = node;
-
-  if (tagName === 'INPUT' && inputTypesWhitelist[type] && !node.readOnly) {
-    return true;
-  }
-
-  if (tagName === 'TEXTAREA' && !node.readOnly) {
-    return true;
-  }
-
-  if (node.isContentEditable) {
-    return true;
-  }
-
-  return false;
-}
-/**
- * Keep track of our keyboard modality state with `hadKeyboardEvent`.
- * If the most recent user interaction was via the keyboard;
- * and the key press did not include a meta, alt/option, or control key;
- * then the modality is keyboard. Otherwise, the modality is not keyboard.
- * @param {KeyboardEvent} event
- */
-
-
-function handleKeyDown(event) {
-  if (event.metaKey || event.altKey || event.ctrlKey) {
-    return;
-  }
-
-  hadKeyboardEvent = true;
-}
-/**
- * If at any point a user clicks with a pointing device, ensure that we change
- * the modality away from keyboard.
- * This avoids the situation where a user presses a key on an already focused
- * element, and then clicks on a different element, focusing it with a
- * pointing device, while we still think we're in keyboard modality.
- */
-
-
-function handlePointerDown() {
-  hadKeyboardEvent = false;
-}
-
-function handleVisibilityChange() {
-  if (this.visibilityState === 'hidden') {
-    // If the tab becomes active again, the browser will handle calling focus
-    // on the element (Safari actually calls it twice).
-    // If this tab change caused a blur on an element with focus-visible,
-    // re-apply the class when the user switches back to the tab.
-    if (hadFocusVisibleRecently) {
-      hadKeyboardEvent = true;
-    }
-  }
-}
-
-function prepare(doc) {
-  doc.addEventListener('keydown', handleKeyDown, true);
-  doc.addEventListener('mousedown', handlePointerDown, true);
-  doc.addEventListener('pointerdown', handlePointerDown, true);
-  doc.addEventListener('touchstart', handlePointerDown, true);
-  doc.addEventListener('visibilitychange', handleVisibilityChange, true);
-}
-
-function isFocusVisible(event) {
-  const {
-    target
-  } = event;
-
-  try {
-    return target.matches(':focus-visible');
-  } catch (error) {// Browsers not implementing :focus-visible will throw a SyntaxError.
-    // We use our own heuristic for those browsers.
-    // Rethrow might be better if it's not the expected error but do we really
-    // want to crash if focus-visible malfunctioned?
-  } // No need for validFocusTarget check. The user does that by attaching it to
-  // focusable events only.
-
-
-  return hadKeyboardEvent || focusTriggersKeyboardModality(target);
-}
-
-function useIsFocusVisible() {
-  const ref = useCallback(node => {
-    if (node != null) {
-      prepare(node.ownerDocument);
-    }
-  }, []);
-  const isFocusVisibleRef = useRef(false);
-  /**
-   * Should be called if a blur event is fired
-   */
-
-  function handleBlurVisible() {
-    // checking against potential state variable does not suffice if we focus and blur synchronously.
-    // React wouldn't have time to trigger a re-render so `focusVisible` would be stale.
-    // Ideally we would adjust `isFocusVisible(event)` to look at `relatedTarget` for blur events.
-    // This doesn't work in IE11 due to https://github.com/facebook/react/issues/3751
-    // TODO: check again if React releases their internal changes to focus event handling (https://github.com/facebook/react/pull/19186).
-    if (isFocusVisibleRef.current) {
-      // To detect a tab/window switch, we look for a blur event followed
-      // rapidly by a visibility change.
-      // If we don't see a visibility change within 100ms, it's probably a
-      // regular focus change.
-      hadFocusVisibleRecently = true;
-      window.clearTimeout(hadFocusVisibleRecentlyTimeout);
-      hadFocusVisibleRecentlyTimeout = window.setTimeout(() => {
-        hadFocusVisibleRecently = false;
-      }, 100);
-      isFocusVisibleRef.current = false;
-      return true;
-    }
-
-    return false;
-  }
-  /**
-   * Should be called if a blur event is fired
-   */
-
-
-  function handleFocusVisible(event) {
-    if (isFocusVisible(event)) {
-      isFocusVisibleRef.current = true;
-      return true;
-    }
-
-    return false;
-  }
-
-  return {
-    isFocusVisibleRef,
-    onFocus: handleFocusVisible,
-    onBlur: handleBlurVisible,
-    ref
-  };
 }
 
 function _extends$3() {
@@ -2599,47 +2714,6 @@ function extendSxProp(props) {
   });
 }
 
-function toVal(mix) {
-	var k, y, str='';
-
-	if (typeof mix === 'string' || typeof mix === 'number') {
-		str += mix;
-	} else if (typeof mix === 'object') {
-		if (Array.isArray(mix)) {
-			for (k=0; k < mix.length; k++) {
-				if (mix[k]) {
-					if (y = toVal(mix[k])) {
-						str && (str += ' ');
-						str += y;
-					}
-				}
-			}
-		} else {
-			for (k in mix) {
-				if (mix[k]) {
-					str && (str += ' ');
-					str += k;
-				}
-			}
-		}
-	}
-
-	return str;
-}
-
-function clsx () {
-	var i=0, tmp, x, str='';
-	while (i < arguments.length) {
-		if (tmp = arguments[i++]) {
-			if (x = toVal(tmp)) {
-				str && (str += ' ');
-				str += x;
-			}
-		}
-	}
-	return str;
-}
-
 const _excluded$1 = ["values", "unit", "step"];
 
 function createBreakpoints(breakpoints) {
@@ -3281,80 +3355,6 @@ function lighten(color, coefficient) {
   return recomposeColor(color);
 }
 
-function composeClasses(slots, getUtilityClass, classes) {
-  const output = {};
-  Object.keys(slots).forEach( // `Objet.keys(slots)` can't be wider than `T` because we infer `T` from `slots`.
-  // @ts-expect-error https://github.com/microsoft/TypeScript/pull/12253#issuecomment-263132208
-  slot => {
-    output[slot] = slots[slot].reduce((acc, key) => {
-      if (key) {
-        if (classes && classes[key]) {
-          acc.push(classes[key]);
-        }
-
-        acc.push(getUtilityClass(key));
-      }
-
-      return acc;
-    }, []).join(' ');
-  });
-  return output;
-}
-
-/**
- * Determines if a given element is a DOM element name (i.e. not a React component).
- */
-function isHostComponent(element) {
-  return typeof element === 'string';
-}
-
-const defaultGenerator = componentName => componentName;
-
-const createClassNameGenerator = () => {
-  let generate = defaultGenerator;
-  return {
-    configure(generator) {
-      generate = generator;
-    },
-
-    generate(componentName) {
-      return generate(componentName);
-    },
-
-    reset() {
-      generate = defaultGenerator;
-    }
-
-  };
-};
-
-const ClassNameGenerator = createClassNameGenerator();
-
-const globalStateClassesMapping = {
-  active: 'Mui-active',
-  checked: 'Mui-checked',
-  completed: 'Mui-completed',
-  disabled: 'Mui-disabled',
-  error: 'Mui-error',
-  expanded: 'Mui-expanded',
-  focused: 'Mui-focused',
-  focusVisible: 'Mui-focusVisible',
-  required: 'Mui-required',
-  selected: 'Mui-selected'
-};
-function generateUtilityClass(componentName, slot) {
-  const globalStateClass = globalStateClassesMapping[slot];
-  return globalStateClass || `${ClassNameGenerator.generate(componentName)}-${slot}`;
-}
-
-function generateUtilityClasses(componentName, slots) {
-  const result = {};
-  slots.forEach(slot => {
-    result[slot] = generateUtilityClass(componentName, slot);
-  });
-  return result;
-}
-
 function createMixins(breakpoints, spacing, mixins) {
   return _extends({
     toolbar: {
@@ -3986,6 +3986,12 @@ function createTheme$1(options = {}, ...args) {
 
 const defaultTheme = createTheme$1();
 
+const rootShouldForwardProp = prop => shouldForwardProp(prop) && prop !== 'classes';
+const styled$1 = createStyled$1({
+  defaultTheme,
+  rootShouldForwardProp
+});
+
 function useThemeProps$1({
   props,
   name
@@ -3996,12 +4002,6 @@ function useThemeProps$1({
     defaultTheme
   });
 }
-
-const rootShouldForwardProp = prop => shouldForwardProp(prop) && prop !== 'classes';
-const styled$1 = createStyled$1({
-  defaultTheme,
-  rootShouldForwardProp
-});
 
 function _extends$4() {
   _extends$4 = Object.assign || function (target) {
@@ -12936,72 +12936,17 @@ function ToolsPanelListItemButton(props) {
   );
 }
 
-var IOSSwitch = styled$1(function (props) { return (createElement(Switch, __assign({ focusVisibleClassName: ".Mui-focusVisible", disableRipple: true }, props))); })(function (_a) {
-    var theme = _a.theme;
-    return ({
-        width: 42,
-        height: 26,
-        padding: 0,
-        '& .MuiSwitch-switchBase': {
-            padding: 0,
-            margin: 2,
-            transitionDuration: '300ms',
-            '&.Mui-checked': {
-                transform: 'translateX(16px)',
-                color: '#fff',
-                '& + .MuiSwitch-track': {
-                    backgroundColor: theme.palette.mode === 'dark' ? '#2ECA45' : '#65C466',
-                    opacity: 1,
-                    border: 0,
-                },
-                '&.Mui-disabled + .MuiSwitch-track': {
-                    opacity: 0.5,
-                },
-            },
-            '&.Mui-focusVisible .MuiSwitch-thumb': {
-                color: '#33cf4d',
-                border: '6px solid #fff',
-            },
-            '&.Mui-disabled .MuiSwitch-thumb': {
-                color: theme.palette.mode === 'light'
-                    ? theme.palette.grey[100]
-                    : theme.palette.grey[600],
-            },
-            '&.Mui-disabled + .MuiSwitch-track': {
-                opacity: theme.palette.mode === 'light' ? 0.7 : 0.3,
-            }
-        }
-    });
-});
 var ReactComponent = function (_a) {
     useEffect(function () {
-        if (!document.getElementById("se1")) {
-            // gross
-            // @ts-ignore
-            var siteId = craftercms.plugins.get("org.rd.plugin.awsmediaconvertconsole").source.site;
-            // @ts-ignore
-            var baseAddress = "/studio/1/plugin/file"
-                + "?type=apps"
-                + "&name=awsmediaconvertconsole"
-                + "&pluginId=org.rd.plugin.awsmediaconvertconsole"
-                + "&siteId=" + siteId;
-            var se1 = document.createElement("script");
-            se1.src = baseAddress + "&filename=video.js";
-            se1.id = "se1";
-            document.head.appendChild(se1);
-            var se2 = document.createElement("script");
-            se2.src = baseAddress + "&filename=videojs-dash.js";
-            document.head.appendChild(se2);
-        }
-        dataLoadChannels();
+        dataLoadJobs();
         var intervalRef = setInterval(function () {
-            dataLoadChannels();
+            dataLoadJobs();
         }, 10000);
         return function () {
             clearInterval(intervalRef);
         };
     }, []);
-    var dataLoadChannels = function () {
+    var dataLoadJobs = function () {
         // @ts-ignore
         var siteId = craftercms.plugins.get("org.rd.plugin.awsmediaconvertconsole").source.site;
         // @ts-ignore
@@ -13009,128 +12954,37 @@ var ReactComponent = function (_a) {
             + '?siteId=' + siteId;
         // @ts-ignore
         CrafterCMSNext.util.ajax.get(serviceUrl).subscribe(function (response) {
-            setState(__assign(__assign({}, state), { channels: response.response.result }));
+            setState(__assign(__assign({}, state), { jobs: response.response.result.jobs }));
         });
-    };
-    var handleToggleOn = function (channelId) {
-        // @ts-ignore
-        var siteId = craftercms.plugins.get("org.rd.plugin.awsmediaconvertconsole").source.site;
-        // @ts-ignore
-        var serviceUrl = '/studio/api/2/plugin/script/plugins/org/rd/plugin/awsmediaconvertconsole/mediaconvertconsole/control.json'
-            + '?siteId=' + siteId
-            + '&action=start'
-            + '&channelId=' + channelId;
-        // @ts-ignore
-        CrafterCMSNext.util.ajax.get(serviceUrl).subscribe(function (response) {
-            dataLoadChannels();
-        });
-    };
-    var handleToggleOff = function (channelId) {
-        // @ts-ignore
-        var siteId = craftercms.plugins.get("org.rd.plugin.awsmediaconvertconsole").source.site;
-        // @ts-ignore
-        var serviceUrl = '/studio/api/2/plugin/script/plugins/org/rd/plugin/awsmediaconvertconsole/mediaconvertconsole/control.json'
-            + '?siteId=' + siteId
-            + '&action=stop'
-            + '&channelId=' + channelId;
-        // @ts-ignore
-        CrafterCMSNext.util.ajax.get(serviceUrl).subscribe(function (response) {
-            dataLoadChannels();
-        });
-    };
-    var handleToggleChannel = function (currentState, channelId) {
-        if (!currentState || currentState == false) {
-            handleToggleOn(channelId);
-        }
-        else {
-            handleToggleOff(channelId);
-        }
-    };
-    var closePreview = function () {
-        // @ts-ignore
-        var playerEl = document.getElementById('example-video');
-        // @ts-ignore
-        videojs(playerEl).dispose();
-        // @ts-ignore
-        window.awsMPVideoPlayer = null;
-        setLightBoxOpen(false);
-    };
-    var previewDestination = function (videoSrcUrl) {
-        setLightBoxOpen(open);
-        window.setTimeout(function () {
-            // @ts-ignore
-            var player = window.awsMPVideoPlayer;
-            if (!player) {
-                // @ts-ignore
-                var playerEl = document.getElementById('example-video');
-                // @ts-ignore
-                var player = videojs(playerEl);
-                // @ts-ignore
-                window.awsMPVideoPlayer = player;
-            }
-            // @ts-ignore
-            var videoType = (videoSrcUrl.indexOf("m3u8") != -1) ? 'application/vnd.apple.mpegurl' : 'application/dash+xml';
-            player.src({ src: videoSrcUrl, type: videoType });
-            player.play();
-        }, 1500);
     };
     var _b = useState(false), open = _b[0], setOpen = _b[1];
-    var _c = useState(false), lightBoxOpen = _c[0], setLightBoxOpen = _c[1];
-    var _d = useState({
-        channels: {},
-        hasMore: true,
-        curPage: 0,
-        itemsPerPage: 10,
-        itemSize: 1
-    }), state = _d[0], setState = _d[1];
+    var _c = useState({
+        jobs: []
+    }), state = _c[0], setState = _c[1];
     return (createElement(Fragment$1, null,
         createElement(ToolsPanelListItemButton, { icon: { id: "@mui/icons-material/VideocamOutlined" }, title: "AWS MediaConvert Jobs", onClick: function () { return setOpen(true); } }),
-        createElement(Dialog, { fullWidth: false, maxWidth: 'lg', onClose: function () { return closePreview(); }, open: lightBoxOpen },
-            createElement("video", { id: "example-video", style: { width: 600, height: 300 }, className: "video-js vjs-default-skin", controls: true }, " ")),
         createElement(Dialog, { fullWidth: true, maxWidth: 'xl', onClose: function () { return setOpen(false); }, "aria-labelledby": "simple-dialog-title", open: open },
             createElement(DialogTitle, { id: "max-width-dialog-title" }, "AWS MediaConvert Jobs"),
             createElement(TableContainer, { component: Paper },
                 createElement(Table, { sx: { minWidth: 650 }, "aria-label": "simple table" },
                     createElement(TableHead, null,
                         createElement(TableRow, null,
-                            createElement(TableCell, null, "Name"),
-                            createElement(TableCell, { align: "right" }, "ID"),
-                            createElement(TableCell, { align: "right" }, "State"),
-                            createElement(TableCell, { align: "right" }, "Control"),
-                            createElement(TableCell, { align: "right" }, "Preview"))),
-                    createElement(TableBody, null, state.channels && Object.entries(state.channels).map(function (_a) {
-                        var channelIdx = _a[0];
-                        var channel = state.channels[channelIdx];
-                        var channelSwitchOn = (channel.state == "STARTING" || channel.state == "RUNNING");
-                        var d = Object.entries(channel.destinations).map(function (_a) {
-                            var destIdx = _a[0];
-                            var dest = channel.destinations[destIdx];
-                            var epb = Object.entries(dest.endpoints).map(function (_a) {
-                                var endpointsIdx = _a[0];
-                                var endpoint = dest.endpoints[endpointsIdx];
-                                var buttonLabel = (endpoint.description) ? endpoint.description : endpoint.description;
-                                var button = (createElement("div", { style: { display: 'block' } },
-                                    createElement(Button, { size: "small", color: "primary", onClick: function () { return previewDestination(endpoint.url); } }, buttonLabel)));
-                                return button;
-                            });
-                            return (createElement("tr", null,
-                                createElement("td", null,
-                                    createElement("b", null, dest.mediaPackageChannelId)),
-                                createElement("td", null, "\u00A0"),
-                                createElement("td", null, "\u00A0"),
-                                createElement("td", null, "\u00A0"),
-                                createElement("td", null, epb)));
-                        });
-                        var channelPreviewButton = createElement("table", null, d);
+                            createElement(TableCell, null, "ID"),
+                            createElement(TableCell, { align: "right" }, "Input"),
+                            createElement(TableCell, { align: "right" }, "Started"),
+                            createElement(TableCell, { align: "right" }, "Status"),
+                            createElement(TableCell, { align: "right" }, "% Complete"))),
+                    createElement(TableBody, null, state.jobs && Object.entries(state.jobs).map(function (_a) {
+                        var jobIdx = _a[0];
+                        var job = state.jobs[jobIdx];
                         // @ts-ignore
-                        return (createElement(TableRow, { key: channel.id, sx: { '&:last-child td, &:last-child th': { border: 0 } } },
+                        return (createElement(TableRow, { key: job.id, sx: { '&:last-child td, &:last-child th': { border: 0 } } },
                             createElement(TableCell, { align: "left" },
-                                createElement("b", null, channel.name)),
-                            createElement(TableCell, { align: "right" }, channel.id),
-                            createElement(TableCell, { align: "right" }, channel.state),
-                            createElement(TableCell, { align: "right" },
-                                createElement(FormControlLabel, { checked: channelSwitchOn, onChange: function () { return handleToggleChannel(channelSwitchOn, channel.id); }, control: createElement(IOSSwitch, null), label: "" })),
-                            createElement(TableCell, { align: "right" }, channelPreviewButton)));
+                                createElement("b", null, job.id)),
+                            createElement(TableCell, { align: "right" }, job.settings.inputs[0].fileInput),
+                            createElement(TableCell, { align: "right" }, job.createdAt),
+                            createElement(TableCell, { align: "right" }, job.status),
+                            createElement(TableCell, { align: "right" }, job.jobPercentComplete)));
                     })))))));
 };
 

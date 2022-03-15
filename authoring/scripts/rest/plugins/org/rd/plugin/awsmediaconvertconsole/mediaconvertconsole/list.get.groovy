@@ -1,6 +1,7 @@
-import plugins.org.rd.plugin.awsmedialiveconsole.MediaLiveConsole
+import plugins.org.rd.plugin.awsmediaconvertconsole.MediaConvertConsole
 
-def mediaLiveConsoleServices = new MediaLiveConsole(pluginConfig)
-def list = mediaLiveConsoleServices.listChannels(siteId)
+def mediaConvertConsoleServices = new MediaConvertConsole(pluginConfig)
+
+def list = mediaConvertConsoleServices.listJobs(siteId)
 
 return list
