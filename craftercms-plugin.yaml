@@ -17,7 +17,7 @@ plugin:
     major: 1
     minor: 0
     patch: 7
-  description: A plugin to provide a console to Studio users that supports starting, stoping and previewing AWS MediaConvert channels
+  description: A plugin to provide a console to Studio users that MediaConvert jobs
   documentation: "https://raw.githubusercontent.com/russdanner/plugin-studio-mediaconvert/master/README.md"
   website:
     name: AWS MediaConvert Console Plugin
@@ -33,7 +33,7 @@ plugin:
       email: russdanner@craftersoftware.com
       url: https://github.com/russdanner
   build:
-    id: cafebabe1e6a24b5e0481d6ba87901d0b02716c9
+    id: cafebabe313a24b5e0481d6ba87901d0b02716c9
     date: 2022-01-07T00:00:00Z
   license:
     name: MIT
@@ -48,14 +48,17 @@ plugin:
   parameters:
     - label: AWS API Key
       name: awsApiKey
-      description: The AWS Api Key for your MediaConveert and Media Package infrastructure.
+      description: The AWS Api Key for your MediaConveert infrastructure.
     - label: AWS API Secret
       name: awsApiSecret
-      description: The AWS API Secret for your MediaConvert and Media Package infrastructure.
+      description: The AWS API Secret for your MediaConvert infrastructure.
     - label: AWS Region
       name: awsRegion
-      description: The AWS Region Secret for your MediaConvert and Media Package infrastructure.
-  installation:
+      description: The AWS Region for your MediaConvert infrastructure.
+    - label: AWS MediaConvert Endpoint
+      name: awsMediaConvertEndpoint
+      description: The AWS MediaConvert Endpoint
+installation:
     - type: filter
       elementXpath: //widget[@id='org.rd.plugin.awsmediaconvertconsole.components.reactComponent']
       parentXpath: //widget[@id='craftercms.components.ToolsPanel']/configuration/widgets
@@ -64,7 +67,6 @@ plugin:
         attributes:
           - name: id
             value: org.rd.plugin.awsmediaconvertconsole.components.reactComponent
-       
     - type: preview-app
       elementXpath: //widget[@id='org.rd.plugin.awsmediaconvertconsole.components.reactComponent']
       parentXpath: //widget[@id='craftercms.components.ToolsPanel']/configuration/widgets
