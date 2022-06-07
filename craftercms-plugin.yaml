@@ -16,7 +16,7 @@ plugin:
   version:
     major: 1
     minor: 0
-    patch: 7
+    patch: 8
   description: A plugin to provide a console to Studio users that MediaConvert jobs
   documentation: "https://raw.githubusercontent.com/russdanner/plugin-studio-mediaconvert/master/README.md"
   website:
@@ -42,6 +42,9 @@ plugin:
     - major: 4
       minor: 0
       patch: 0
+    - major: 4
+      minor: 0
+      patch: 1
   crafterCmsEditions:
     - community
     - enterprise
