@@ -16,7 +16,7 @@ plugin:
   version:
     major: 1
     minor: 0
-    patch: 8
+    patch: 9
   description: A plugin to provide a console to Studio users that MediaConvert jobs
   documentation: "https://raw.githubusercontent.com/russdanner/plugin-studio-mediaconvert/master/README.md"
   website:
@@ -45,13 +45,19 @@ plugin:
     - major: 4
       minor: 0
       patch: 1
+    - major: 4
+      minor: 2
+      patch: 0
+    - major: 4
+      minor: 2
+      patch: 1
   crafterCmsEditions:
     - community
     - enterprise
   parameters:
     - label: AWS API Key
       name: awsApiKey
-      description: The AWS Api Key for your MediaConveert infrastructure.
+      description: The AWS Api Key for your MediaConvert infrastructure.
     - label: AWS API Secret
       name: awsApiSecret
       description: The AWS API Secret for your MediaConvert infrastructure.
@@ -61,7 +67,7 @@ plugin:
     - label: AWS MediaConvert Endpoint
       name: awsMediaConvertEndpoint
       description: The AWS MediaConvert Endpoint
-installation:
+  installation:
     - type: filter
       elementXpath: //widget[@id='org.rd.plugin.awsmediaconvertconsole.components.reactComponent']
       parentXpath: //widget[@id='craftercms.components.ToolsPanel']/configuration/widgets
@@ -70,6 +76,7 @@ installation:
         attributes:
           - name: id
             value: org.rd.plugin.awsmediaconvertconsole.components.reactComponent
+
     - type: preview-app
       elementXpath: //widget[@id='org.rd.plugin.awsmediaconvertconsole.components.reactComponent']
       parentXpath: //widget[@id='craftercms.components.ToolsPanel']/configuration/widgets
@@ -90,4 +97,4 @@ installation:
               - name: name
                 value: awsmediaconvertconsole
               - name: file
-                value: index.modern.js      
+                value: index.modern.js
