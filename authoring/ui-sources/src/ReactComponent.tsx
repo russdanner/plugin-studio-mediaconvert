@@ -106,7 +106,7 @@ const ReactComponent = ({}: ExampleComponentProps) => {
         </div>
         <div className="MuiListItemText-root mui-1tsvksn">
           <span className="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap MuiListItemText-primary css-typdpm">
-            AWS MediaConvert Console
+            AWS MediaConvert Jobs
           </span>
         </div>
         <svg

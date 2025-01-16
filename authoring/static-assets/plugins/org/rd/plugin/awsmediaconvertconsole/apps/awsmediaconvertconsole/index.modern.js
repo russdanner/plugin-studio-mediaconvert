@@ -90,7 +90,7 @@ var ReactComponent = function (_a) {
                 createElement("svg", { className: "MuiSvgIcon-root MuiSvgIcon-fontSizeMedium mui-vubbuv", focusable: "false", "aria-hidden": "true", viewBox: "0 0 24 24", "data-testid": "DashboardRoundedIcon" },
                     createElement("path", { d: "M17 21.5H4a2 2 0 01-2-2v-10a2 2 0 012-2h13a2 2 0 012 2v10a2 2 0 01-2 2zM21 11.5v6l4.445 2.964A1 1 0 0027 19.631V9.369a1 1 0 00-1.555-.832L21 11.5z" }))),
             createElement("div", { className: "MuiListItemText-root mui-1tsvksn" },
-                createElement("span", { className: "MuiTypography-root MuiTypography-body1 MuiTypography-noWrap MuiListItemText-primary css-typdpm" }, "AWS MediaConvert Console")),
+                createElement("span", { className: "MuiTypography-root MuiTypography-body1 MuiTypography-noWrap MuiListItemText-primary css-typdpm" }, "AWS MediaConvert Jobs")),
             createElement("svg", { className: "MuiSvgIcon-root MuiSvgIcon-fontSizeMedium mui-vubbuv", focusable: "false", "aria-hidden": "true", viewBox: "0 0 24 24", "data-testid": "ChevronRightRoundedIcon" },
                 createElement("path", { d: "M9.29 6.71c-.39.39-.39 1.02 0 1.41L13.17 12l-3.88 3.88c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0l4.59-4.59c.39-.39.39-1.02 0-1.41L10.7 6.7c-.38-.38-1.02-.38-1.41.01z" })),
             createElement("span", { className: "MuiTouchRipple-root css-w0pj6f" })),
