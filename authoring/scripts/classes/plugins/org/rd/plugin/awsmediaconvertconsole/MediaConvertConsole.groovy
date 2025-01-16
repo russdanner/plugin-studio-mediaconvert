@@ -1,23 +1,27 @@
 package plugins.org.rd.plugin.awsmediaconvertconsole
 
-@Grab(group='com.amazonaws', module='aws-java-sdk-mediaconvert', version='1.12.99', initClass=false)
+@Grab(group='software.amazon.awssdk', module='mediaconvert', version='2.29.52', initClass=false)
+@Grab(group='software.amazon.awssdk', module='auth', version='2.29.52', initClass=false)
+@Grab(group='software.amazon.awssdk', module='regions', version='2.29.52', initClass=false)
 
-import com.amazonaws.auth.*
-import com.amazonaws.client.builder.AwsClientBuilder
-import com.amazonaws.auth.AWSCredentialsProvider
-import com.amazonaws.services.mediaconvert.AWSMediaConvertClientBuilder
-import com.amazonaws.services.mediaconvert.model.ListJobsRequest
+import software.amazon.awssdk.auth.credentials.AwsBasicCredentials
+import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider
+import software.amazon.awssdk.regions.Region
+import software.amazon.awssdk.services.mediaconvert.MediaConvertClient
+import software.amazon.awssdk.services.mediaconvert.model.*
+import software.amazon.awssdk.services.mediaconvert.model.JobSettings
+import software.amazon.awssdk.services.mediaconvert.model.OutputGroupSettings
 
 /**
  * This class is a service class that maps console functionality to AWS MediaConvert services
  */
 public class MediaConvertConsole {
 
-    def mediaConvertClient
+    MediaConvertClient mediaConvertClient
     def pluginConfig
 
     /**
-     * constructor
+     * Constructor
      */
     MediaConvertConsole(pluginConfig) {
         this.pluginConfig = pluginConfig
@@ -25,11 +29,10 @@ public class MediaConvertConsole {
 
     /**
      * Look up credentials for AWS from the site
-     * @param siteId
      * @return object containing credentials
      */
     def lookupAwsMediaCredentials() {
-        def creds = [region: "", apiKey: "", apiSecret: ""]
+        def creds = [region: "", apiKey: "", apiSecret: "", endpoint: ""]
 
         creds.region = pluginConfig.getString("awsRegion")
         creds.apiKey = pluginConfig.getString("awsApiKey")
@@ -40,32 +43,80 @@ public class MediaConvertConsole {
     }
 
     /**
-     * return the media live client. If one does not exist for the instance, create it.
-     * @param siteId
+     * Create and return the MediaConvert client. If one does not exist, create it.
      */
-    def createMediaConvertClient(siteId) {
-
-        if(this.mediaConvertClient == null) {
+    def createMediaConvertClient() {
+        if (this.mediaConvertClient == null) {
             def creds = this.lookupAwsMediaCredentials()
-            def endpoint = creds.endpoint
-            AWSCredentialsProvider credProvider = (AWSCredentialsProvider) (new AWSStaticCredentialsProvider( new BasicAWSCredentials(creds.apiKey, creds.apiSecret)))
-            this.mediaConvertClient = AWSMediaConvertClientBuilder.standard().withCredentials(credProvider).withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration(endpoint, creds.region)).build();
+
+            AwsBasicCredentials awsCreds = AwsBasicCredentials.create(creds.apiKey, creds.apiSecret)
+            StaticCredentialsProvider credProvider = StaticCredentialsProvider.create(awsCreds)
+
+            this.mediaConvertClient = MediaConvertClient.builder()
+                    .endpointOverride(URI.create(creds.endpoint))
+                    .region(Region.of(creds.region))
+                    .credentialsProvider(credProvider)
+                    .build()
         }
 
         return this.mediaConvertClient
     }
 
     /**
-     * list the available AWS MediaConvert channels
-     * @param siteId Id of the site
+     * List the available AWS MediaConvert jobs
      */
-    def listJobs(siteId) {
-        def jobResults = []
+    def listJobs() {
+        this.createMediaConvertClient()
+        def listJobRequest = ListJobsRequest.builder().build()
 
-         this.createMediaConvertClient(siteId)
-         def listJobReq = new ListJobsRequest()
-         jobResults = this.mediaConvertClient.listJobs(listJobReq)
+        def listJobsResponse = this.mediaConvertClient.listJobs(listJobRequest)
+        def jobs = []
 
-        return jobResults
+        listJobsResponse.jobs().each { job ->
+            def jobDetails = [
+                id         : job.id(),
+                settings   : extractJobSettings(job.settings()),
+                createdAt: job.createdAt(),
+                status     : job.statusAsString(),
+                jobPercentComplete: job.jobPercentComplete()
+            ]
+            jobs.add(jobDetails)
+        }
+
+        return [
+            jobs: jobs
+        ]
+    }
+
+    /**
+     * Extracts job settings such as inputs and outputs
+     * @param settings Job settings object
+     * @return A map with relevant settings information
+     */
+    def extractJobSettings(JobSettings settings) {
+        def extractedSettings = [:]
+
+        // Extract input settings
+        def inputs = settings.inputs().collect { input ->
+            [
+                fileInput       : input.fileInput(),
+                audioSelectors  : input.audioSelectors().keySet(),
+                videoSelector   : input.videoSelector()?.colorSpace(),
+                timecodeSource  : input.timecodeSourceAsString()
+            ]
+        }
+
+        // Extract output group settings
+        def outputGroups = settings.outputGroups().collect { outputGroup ->
+            [
+                name : outputGroup.name(),
+                type : outputGroup.outputGroupSettings().getClass().simpleName
+            ]
+        }
+
+        extractedSettings.inputs = inputs
+        extractedSettings.outputGroups = outputGroups
+
+        return extractedSettings
     }
 }
