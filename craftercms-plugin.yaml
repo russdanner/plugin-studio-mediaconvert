@@ -16,7 +16,7 @@ plugin:
   version:
     major: 1
     minor: 0
-    patch: 9
+    patch: 10
   description: A plugin to provide a console to Studio users that MediaConvert jobs
   documentation: "https://raw.githubusercontent.com/russdanner/plugin-studio-mediaconvert/master/README.md"
   website:
@@ -40,30 +40,13 @@ plugin:
     url: https://opensource.org/licenses/MIT
   crafterCmsVersions:
     - major: 4
-      minor: 0
-      patch: 0
-    - major: 4
-      minor: 0
-      patch: 1
-    - major: 4
       minor: 2
-      patch: 0
     - major: 4
-      minor: 2
-      patch: 1
-    - major: 4
-      minor: 2
-      patch: 2
+      minor: 3
   crafterCmsEditions:
     - community
     - enterprise
   parameters:
-    - label: AWS API Key
-      name: awsApiKey
-      description: The AWS Api Key for your MediaConvert infrastructure.
-    - label: AWS API Secret
-      name: awsApiSecret
-      description: The AWS API Secret for your MediaConvert infrastructure.
     - label: AWS Region
       name: awsRegion
       description: The AWS Region for your MediaConvert infrastructure.

@@ -4,8 +4,7 @@ package plugins.org.rd.plugin.awsmediaconvertconsole
 @Grab(group='software.amazon.awssdk', module='auth', version='2.29.52', initClass=false)
 @Grab(group='software.amazon.awssdk', module='regions', version='2.29.52', initClass=false)
 
-import software.amazon.awssdk.auth.credentials.AwsBasicCredentials
-import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider
+import software.amazon.awssdk.auth.credentials.*
 import software.amazon.awssdk.regions.Region
 import software.amazon.awssdk.services.mediaconvert.MediaConvertClient
 import software.amazon.awssdk.services.mediaconvert.model.*
@@ -48,9 +47,14 @@ public class MediaConvertConsole {
     def createMediaConvertClient() {
         if (this.mediaConvertClient == null) {
             def creds = this.lookupAwsMediaCredentials()
+            AwsCredentialsProvider credProvider
 
-            AwsBasicCredentials awsCreds = AwsBasicCredentials.create(creds.apiKey, creds.apiSecret)
-            StaticCredentialsProvider credProvider = StaticCredentialsProvider.create(awsCreds)
+            if (creds.apiKey && creds.apiSecret) {
+                AwsBasicCredentials awsCreds = AwsBasicCredentials.create(creds.apiKey, creds.apiSecret)
+                credProvider = StaticCredentialsProvider.create(awsCreds)
+            } else {
+                credProvider = ProfileCredentialsProvider.create()
+            }
 
             this.mediaConvertClient = MediaConvertClient.builder()
                     .endpointOverride(URI.create(creds.endpoint))
