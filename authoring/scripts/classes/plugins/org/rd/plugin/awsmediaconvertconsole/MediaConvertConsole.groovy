@@ -53,7 +53,7 @@ public class MediaConvertConsole {
                 AwsBasicCredentials awsCreds = AwsBasicCredentials.create(creds.apiKey, creds.apiSecret)
                 credProvider = StaticCredentialsProvider.create(awsCreds)
             } else {
-                credProvider = ProfileCredentialsProvider.create()
+                credProvider = DefaultCredentialsProvider.create()
             }
 
             this.mediaConvertClient = MediaConvertClient.builder()
